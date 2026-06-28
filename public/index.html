@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aegis Planner AI </title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-slate-50 h-screen flex overflow-hidden font-sans">
+
+    <!-- Left Side: Chat Interface -->
+    <div class="w-1/3 bg-white border-r border-slate-200 flex flex-col shadow-lg z-10">
+        <div class="p-6 border-b border-slate-100 bg-blue-600 text-white">
+            <h1 class="text-2xl font-bold"><i class="fa-solid fa-shield-halved mr-2"></i> Aegis Planner</h1>
+            <p class="text-sm opacity-80 mt-1">Your autonomous academic shield</p>
+        </div>
+        
+        <div id="chat-history" class="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50">
+            <!-- Chat messages go here -->
+            <div class="bg-blue-100 p-3 rounded-lg rounded-tl-none self-start max-w-[85%] text-slate-700">
+                Hi! I'm Aegis AI, your Academic Copilot. Tell me about your upcoming exams, deadlines, or backlogs. I'll build a plan to protect your grades.
+            </div>
+        </div>
+
+        <div class="p-4 bg-white border-t border-slate-200">
+            <div class="flex gap-2">
+                <input type="text" id="user-input" class="flex-1 p-3 border border-slate-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500" placeholder="E.g., I have an OS exam on Friday and I haven't started...">
+                <button id="send-btn" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition font-semibold">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Side: Agentic Dashboard / Study Plan -->
+    <div class="w-2/3 bg-slate-50 p-8 overflow-y-auto">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-3xl font-bold text-slate-800">Action Plan Dashboard</h2>
+                <span class="bg-emerald-100 text-emerald-700 px-4 py-1 rounded-full text-sm font-bold border border-emerald-200"><i class="fa-solid fa-robot mr-1"></i> AI Agent Active</span>
+            </div>
+
+            <div id="dashboard-content" class="text-slate-500 flex flex-col items-center justify-center h-64 border-2 border-dashed border-slate-300 rounded-xl bg-white">
+                <i class="fa-solid fa-calendar-check text-4xl mb-4 text-slate-300"></i>
+                <p>Waiting for context. Tell Aegis what you need to study.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const chatHistory = document.getElementById('chat-history');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const dashboard = document.getElementById('dashboard-content');
+
+        function addMessage(text, isUser) {
+            const div = document.createElement('div');
+            div.className = `p-3 rounded-lg max-w-[85%] ${isUser ? 'bg-blue-600 text-white self-end ml-auto rounded-tr-none' : 'bg-blue-100 text-slate-700 self-start rounded-tl-none'} shadow-sm`;
+            div.innerText = text;
+            chatHistory.appendChild(div);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+
+        function renderPlan(plan) {
+            let html = `
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 w-full animate-fade-in">
+                    <h3 class="text-2xl font-bold text-blue-700 mb-6 border-b pb-4"><i class="fa-solid fa-map-location-dot mr-2"></i>${plan.plan_title}</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            `;
+            
+            plan.daily_tasks.forEach((task, index) => {
+                html += `
+                    <div class="border border-slate-100 bg-slate-50 p-4 rounded-lg hover:shadow-md transition border-l-4 border-l-blue-500">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="font-bold text-slate-800">${task.day}</span>
+                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded font-bold"><i class="fa-regular fa-clock mr-1"></i>${task.duration_hours} hrs</span>
+                        </div>
+                        <p class="text-slate-600">${task.topic}</p>
+                    </div>
+                `;
+            });
+
+            html += `</div></div>`;
+            dashboard.innerHTML = html;
+        }
+
+        async function sendMessage() {
+            const text = userInput.value.trim();
+            if (!text) return;
+
+            addMessage(text, true);
+            userInput.value = '';
+            
+            // Add loading indicator
+            const loadingId = 'loading-' + Date.now();
+            const loadingDiv = document.createElement('div');
+            loadingDiv.id = loadingId;
+            loadingDiv.className = `p-3 rounded-lg max-w-[85%] bg-blue-100 text-slate-700 self-start rounded-tl-none shadow-sm`;
+            loadingDiv.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Initializing Agent...';
+            chatHistory.appendChild(loadingDiv);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+
+            // DYNAMIC LOADING UX HACK
+            const loadingMessages = [
+                "Analyzing deadlines...", 
+                "Prioritizing subjects...", 
+                "Allocating 2-hour blocks...", 
+                "Finalizing schedule..."
+            ];
+            let msgIndex = 0;
+            const loadingInterval = setInterval(() => {
+                msgIndex = (msgIndex + 1) % loadingMessages.length;
+                const loader = document.getElementById(loadingId);
+                if(loader) loader.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> ${loadingMessages[msgIndex]}`;
+            }, 1200);
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt: text })
+                });
+                
+                const data = await response.json();
+                
+                // STOP THE LOADER
+                clearInterval(loadingInterval);
+                document.getElementById(loadingId).remove();
+                
+                addMessage(data.text, false);
+
+                if (data.plan) {
+                    renderPlan(data.plan);
+                }
+            } catch (error) {
+                clearInterval(loadingInterval);
+                document.getElementById(loadingId).remove();
+                addMessage("Error connecting to Aegis.", false);
+            }
+        }
+
+        sendBtn.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+    </script>
+    <style>
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
+    </style>
+</body>
+</html>
