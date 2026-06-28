@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aegis Planner AI </title>
+    <title>Aegis Planner AI by Abhishek</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
@@ -14,12 +14,13 @@
         <div class="p-6 border-b border-slate-100 bg-blue-600 text-white">
             <h1 class="text-2xl font-bold"><i class="fa-solid fa-shield-halved mr-2"></i> Aegis Planner</h1>
             <p class="text-sm opacity-80 mt-1">Your autonomous academic shield</p>
+            <p class="text-xs font-semibold text-blue-200 mt-2"><i class="fa-solid fa-code mr-1"></i> Built by Abhishek Kumar</p>
         </div>
         
         <div id="chat-history" class="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50">
             <!-- Chat messages go here -->
             <div class="bg-blue-100 p-3 rounded-lg rounded-tl-none self-start max-w-[85%] text-slate-700">
-                Hi! I'm Aegis AI, your Academic Copilot. Tell me about your upcoming exams, deadlines, or backlogs. I'll build a plan to protect your grades.
+                Hi! I'm Aegis, your Academic Copilot. Tell me about your upcoming exams, deadlines, or backlogs. I'll build a plan to protect your grades.
             </div>
         </div>
 
@@ -90,7 +91,6 @@
             addMessage(text, true);
             userInput.value = '';
             
-            // Add loading indicator
             const loadingId = 'loading-' + Date.now();
             const loadingDiv = document.createElement('div');
             loadingDiv.id = loadingId;
@@ -99,7 +99,6 @@
             chatHistory.appendChild(loadingDiv);
             chatHistory.scrollTop = chatHistory.scrollHeight;
 
-            // DYNAMIC LOADING UX HACK
             const loadingMessages = [
                 "Analyzing deadlines...", 
                 "Prioritizing subjects...", 
@@ -122,7 +121,6 @@
                 
                 const data = await response.json();
                 
-                // STOP THE LOADER
                 clearInterval(loadingInterval);
                 document.getElementById(loadingId).remove();
                 
