@@ -1,1106 +1,1799 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" data-theme="light">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
     <title>Aegis Planner AI — Your Academic Shield</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
     <style>
-/* ═══════════════════════════════════════════════════
+      /* ═══════════════════════════════════════════════════
    CSS VARIABLES — Light & Dark Mode
 ═══════════════════════════════════════════════════ */
-:root {
-    --bg-page:        #f1f5f9;
-    --bg-panel:       #ffffff;
-    --bg-chat:        #f8fafc;
-    --bg-input:       #ffffff;
-    --border:         #e2e8f0;
-    --border-strong:  #cbd5e1;
-    --text-primary:   #0f172a;
-    --text-secondary: #475569;
-    --text-muted:     #94a3b8;
-    --accent:         #2563eb;
-    --accent-dark:    #1d4ed8;
-    --accent-deeper:  #1e40af;
-    --accent-glow:    rgba(37,99,235,.15);
-    --success:        #10b981;
-    --warn:           #f59e0b;
-    --danger:         #ef4444;
-    --header-from:    #1e3a8a;
-    --header-to:      #2563eb;
-    --shadow-panel:   2px 0 20px rgba(0,0,0,.07);
-    --shadow-card:    0 2px 14px rgba(0,0,0,.05);
-    --radius-card:    16px;
-    --radius-btn:     12px;
-    --transition:     .2s ease;
-}
-[data-theme="dark"] {
-    --bg-page:        #0f172a;
-    --bg-panel:       #1e293b;
-    --bg-chat:        #0f172a;
-    --bg-input:       #1e293b;
-    --border:         #334155;
-    --border-strong:  #475569;
-    --text-primary:   #f1f5f9;
-    --text-secondary: #94a3b8;
-    --text-muted:     #64748b;
-    --accent:         #3b82f6;
-    --accent-dark:    #2563eb;
-    --accent-deeper:  #1d4ed8;
-    --accent-glow:    rgba(59,130,246,.2);
-    --success:        #34d399;
-    --warn:           #fbbf24;
-    --danger:         #f87171;
-    --header-from:    #0f172a;
-    --header-to:      #1e3a8a;
-    --shadow-panel:   2px 0 20px rgba(0,0,0,.3);
-    --shadow-card:    0 2px 14px rgba(0,0,0,.25);
-}
+      :root {
+        --bg-page: #f1f5f9;
+        --bg-panel: #ffffff;
+        --bg-chat: #f8fafc;
+        --bg-input: #ffffff;
+        --border: #e2e8f0;
+        --border-strong: #cbd5e1;
+        --text-primary: #0f172a;
+        --text-secondary: #475569;
+        --text-muted: #94a3b8;
+        --accent: #2563eb;
+        --accent-dark: #1d4ed8;
+        --accent-deeper: #1e40af;
+        --accent-glow: rgba(37, 99, 235, 0.15);
+        --success: #10b981;
+        --warn: #f59e0b;
+        --danger: #ef4444;
+        --header-from: #1e3a8a;
+        --header-to: #2563eb;
+        --shadow-panel: 2px 0 20px rgba(0, 0, 0, 0.07);
+        --shadow-card: 0 2px 14px rgba(0, 0, 0, 0.05);
+        --radius-card: 16px;
+        --radius-btn: 12px;
+        --transition: 0.2s ease;
+      }
+      [data-theme="dark"] {
+        --bg-page: #0f172a;
+        --bg-panel: #1e293b;
+        --bg-chat: #0f172a;
+        --bg-input: #1e293b;
+        --border: #334155;
+        --border-strong: #475569;
+        --text-primary: #f1f5f9;
+        --text-secondary: #94a3b8;
+        --text-muted: #64748b;
+        --accent: #3b82f6;
+        --accent-dark: #2563eb;
+        --accent-deeper: #1d4ed8;
+        --accent-glow: rgba(59, 130, 246, 0.2);
+        --success: #34d399;
+        --warn: #fbbf24;
+        --danger: #f87171;
+        --header-from: #0f172a;
+        --header-to: #1e3a8a;
+        --shadow-panel: 2px 0 20px rgba(0, 0, 0, 0.3);
+        --shadow-card: 0 2px 14px rgba(0, 0, 0, 0.25);
+      }
 
-/* ═══════════════════════════════════════════════════
+      /* ═══════════════════════════════════════════════════
    RESET & BASE
 ═══════════════════════════════════════════════════ */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; font-family: 'Inter', system-ui, -apple-system, sans-serif; }
-body { background: var(--bg-page); color: var(--text-primary); transition: background var(--transition), color var(--transition); }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        height: 100%;
+        font-family:
+          "Inter",
+          system-ui,
+          -apple-system,
+          sans-serif;
+      }
+      body {
+        background: var(--bg-page);
+        color: var(--text-primary);
+        transition:
+          background var(--transition),
+          color var(--transition);
+      }
 
-/* ═══════════════════════════════════════════════════
+      /* ═══════════════════════════════════════════════════
    APP LAYOUT
 ═══════════════════════════════════════════════════ */
-.app-shell { display: flex; height: 100vh; overflow: hidden; }
+      .app-shell {
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
+      }
 
-/* ─── Chat Panel ─── */
-.chat-panel {
-    display: flex; flex-direction: column;
-    width: 390px; min-width: 330px; flex-shrink: 0;
-    background: var(--bg-panel);
-    border-right: 1px solid var(--border);
-    box-shadow: var(--shadow-panel);
-    z-index: 10;
-    transition: background var(--transition), border-color var(--transition);
-}
+      /* ─── Chat Panel ─── */
+      .chat-panel {
+        display: flex;
+        flex-direction: column;
+        width: 390px;
+        min-width: 330px;
+        flex-shrink: 0;
+        background: var(--bg-panel);
+        border-right: 1px solid var(--border);
+        box-shadow: var(--shadow-panel);
+        z-index: 10;
+        transition:
+          background var(--transition),
+          border-color var(--transition);
+      }
 
-/* ─── Dashboard Panel ─── */
-.dash-panel {
-    flex: 1; overflow-y: auto;
-    padding: 32px 32px 60px;
-    background: var(--bg-page);
-    transition: background var(--transition);
-}
+      /* ─── Dashboard Panel ─── */
+      .dash-panel {
+        flex: 1;
+        overflow-y: auto;
+        padding: 32px 32px 60px;
+        background: var(--bg-page);
+        transition: background var(--transition);
+      }
 
-/* ─── Mobile Tabs ─── */
-.mobile-tabs {
-    display: none;
-    position: fixed; bottom: 0; left: 0; right: 0;
-    z-index: 50;
-    background: var(--bg-panel);
-    border-top: 1px solid var(--border);
-    box-shadow: 0 -4px 16px rgba(0,0,0,.1);
-}
+      /* ─── Mobile Tabs ─── */
+      .mobile-tabs {
+        display: none;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 50;
+        background: var(--bg-panel);
+        border-top: 1px solid var(--border);
+        box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.1);
+      }
 
-/* ═══════════════════════════════════════════════════
+      /* ═══════════════════════════════════════════════════
    CHAT HEADER — SVG Logo
 ═══════════════════════════════════════════════════ */
-.chat-header {
-    background: linear-gradient(135deg, var(--header-from) 0%, var(--header-to) 100%);
-    color: #fff;
-    padding: 18px 20px 14px;
-    flex-shrink: 0;
-    position: relative;
-}
-.header-row { display: flex; align-items: center; justify-content: space-between; }
-.logo-row   { display: flex; align-items: center; gap: 12px; margin-bottom: 4px; }
-.logo-text-main {
-    font-size: 1.2rem; font-weight: 800; letter-spacing: .5px; line-height: 1.2;
-}
-.logo-text-main .dim { color: rgba(255,255,255,.6); font-weight: 300; }
-.logo-tagline { font-size: 0.67rem; opacity: .6; letter-spacing: 1.8px; text-transform: uppercase; margin-top: 1px; }
-.logo-byline  { font-size: 0.67rem; opacity: .45; margin-top: 5px; }
+      .chat-header {
+        background: linear-gradient(
+          135deg,
+          var(--header-from) 0%,
+          var(--header-to) 100%
+        );
+        color: #fff;
+        padding: 18px 20px 14px;
+        flex-shrink: 0;
+        position: relative;
+      }
+      .header-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .logo-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 4px;
+      }
+      .logo-text-main {
+        font-size: 1.2rem;
+        font-weight: 800;
+        letter-spacing: 0.5px;
+        line-height: 1.2;
+      }
+      .logo-text-main .dim {
+        color: rgba(255, 255, 255, 0.6);
+        font-weight: 300;
+      }
+      .logo-tagline {
+        font-size: 0.67rem;
+        opacity: 0.6;
+        letter-spacing: 1.8px;
+        text-transform: uppercase;
+        margin-top: 1px;
+      }
+      .logo-byline {
+        font-size: 0.67rem;
+        opacity: 0.45;
+        margin-top: 5px;
+      }
 
-/* Dark mode toggle button */
-.theme-btn {
-    background: rgba(255,255,255,.15);
-    border: none; color: #fff;
-    width: 34px; height: 34px;
-    border-radius: 8px; cursor: pointer;
-    font-size: .95rem;
-    display: flex; align-items: center; justify-content: center;
-    transition: background .15s;
-    flex-shrink: 0;
-}
-.theme-btn:hover { background: rgba(255,255,255,.25); }
+      /* Dark mode toggle button */
+      .theme-btn {
+        background: rgba(255, 255, 255, 0.15);
+        border: none;
+        color: #fff;
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 0.95rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.15s;
+        flex-shrink: 0;
+      }
+      .theme-btn:hover {
+        background: rgba(255, 255, 255, 0.25);
+      }
 
-/* ═══════════════════════════════════════════════════
+      /* ═══════════════════════════════════════════════════
    CHAT HISTORY
 ═══════════════════════════════════════════════════ */
-#chat-history {
-    flex: 1; overflow-y: auto;
-    padding: 16px;
-    display: flex; flex-direction: column; gap: 10px;
-    background: var(--bg-chat);
-    scroll-behavior: smooth;
-    transition: background var(--transition);
-}
-#chat-history::-webkit-scrollbar { width: 4px; }
-#chat-history::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+      #chat-history {
+        flex: 1;
+        overflow-y: auto;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        background: var(--bg-chat);
+        scroll-behavior: smooth;
+        transition: background var(--transition);
+      }
+      #chat-history::-webkit-scrollbar {
+        width: 4px;
+      }
+      #chat-history::-webkit-scrollbar-thumb {
+        background: var(--border-strong);
+        border-radius: 4px;
+      }
 
-/* ─── Message Bubbles ─── */
-.msg-user {
-    align-self: flex-end;
-    background: var(--accent);
-    color: #fff;
-    border-radius: 18px 18px 4px 18px;
-    padding: 10px 14px;
-    max-width: 83%;
-    font-size: .88rem; line-height: 1.45;
-    box-shadow: 0 2px 10px var(--accent-glow);
-    word-break: break-word;
-}
-.msg-ai {
-    align-self: flex-start;
-    background: var(--bg-panel);
-    color: var(--text-primary);
-    border-radius: 18px 18px 18px 4px;
-    padding: 10px 14px;
-    max-width: 83%;
-    font-size: .88rem; line-height: 1.45;
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow-card);
-    word-break: break-word;
-    transition: background var(--transition), border-color var(--transition);
-}
+      /* ─── Message Bubbles ─── */
+      .msg-user {
+        align-self: flex-end;
+        background: var(--accent);
+        color: #fff;
+        border-radius: 18px 18px 4px 18px;
+        padding: 10px 14px;
+        max-width: 83%;
+        font-size: 0.88rem;
+        line-height: 1.45;
+        box-shadow: 0 2px 10px var(--accent-glow);
+        word-break: break-word;
+      }
+      .msg-ai {
+        align-self: flex-start;
+        background: var(--bg-panel);
+        color: var(--text-primary);
+        border-radius: 18px 18px 18px 4px;
+        padding: 10px 14px;
+        max-width: 83%;
+        font-size: 0.88rem;
+        line-height: 1.45;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow-card);
+        word-break: break-word;
+        transition:
+          background var(--transition),
+          border-color var(--transition);
+      }
 
-/* ─── Typing Dots ─── */
-.typing-dots { display: inline-flex; gap: 4px; align-items: center; }
-.typing-dots span {
-    width: 7px; height: 7px;
-    background: var(--text-muted);
-    border-radius: 50%;
-    animation: tdBounce 1.2s infinite;
-}
-.typing-dots span:nth-child(2) { animation-delay: .2s; }
-.typing-dots span:nth-child(3) { animation-delay: .4s; }
-@keyframes tdBounce {
-    0%,60%,100% { transform: translateY(0); }
-    30%          { transform: translateY(-6px); }
-}
-.typing-stage { font-size: .78rem; color: var(--text-muted); margin-right: 6px; }
+      /* ─── Typing Dots ─── */
+      .typing-dots {
+        display: inline-flex;
+        gap: 4px;
+        align-items: center;
+      }
+      .typing-dots span {
+        width: 7px;
+        height: 7px;
+        background: var(--text-muted);
+        border-radius: 50%;
+        animation: tdBounce 1.2s infinite;
+      }
+      .typing-dots span:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .typing-dots span:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+      @keyframes tdBounce {
+        0%,
+        60%,
+        100% {
+          transform: translateY(0);
+        }
+        30% {
+          transform: translateY(-6px);
+        }
+      }
+      .typing-stage {
+        font-size: 0.78rem;
+        color: var(--text-muted);
+        margin-right: 6px;
+      }
 
-/* ═══════════════════════════════════════════════════
+      /* ═══════════════════════════════════════════════════
    INPUT AREA
 ═══════════════════════════════════════════════════ */
-.input-area {
-    padding: 10px 14px 12px;
-    background: var(--bg-input);
-    border-top: 1px solid var(--border);
-    transition: background var(--transition), border-color var(--transition);
-}
+      .input-area {
+        padding: 10px 14px 12px;
+        background: var(--bg-input);
+        border-top: 1px solid var(--border);
+        transition:
+          background var(--transition),
+          border-color var(--transition);
+      }
 
-/* Difficulty chips */
-.diff-row {
-    display: flex; gap: 5px;
-    padding: 6px 0 4px;
-    overflow-x: auto; scrollbar-width: none;
-}
-.diff-row::-webkit-scrollbar { display: none; }
-.diff-chip {
-    white-space: nowrap; flex-shrink: 0;
-    padding: 4px 10px;
-    border-radius: 20px; border: 1px solid var(--border);
-    font-size: .72rem; font-weight: 600;
-    cursor: pointer; transition: background .15s, border-color .15s;
-    color: var(--text-secondary);
-    background: var(--bg-page);
-}
-.diff-chip:hover, .diff-chip.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+      /* Difficulty chips */
+      .diff-row {
+        display: flex;
+        gap: 5px;
+        padding: 6px 0 4px;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+      .diff-row::-webkit-scrollbar {
+        display: none;
+      }
+      .diff-chip {
+        white-space: nowrap;
+        flex-shrink: 0;
+        padding: 4px 10px;
+        border-radius: 20px;
+        border: 1px solid var(--border);
+        font-size: 0.72rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition:
+          background 0.15s,
+          border-color 0.15s;
+        color: var(--text-secondary);
+        background: var(--bg-page);
+      }
+      .diff-chip:hover,
+      .diff-chip.active {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+      }
 
-/* Quick prompt chips */
-.chips-row {
-    display: flex; gap: 5px;
-    overflow-x: auto; padding: 4px 0 6px;
-    scrollbar-width: none;
-}
-.chips-row::-webkit-scrollbar { display: none; }
-.chip {
-    white-space: nowrap; flex-shrink: 0;
-    background: var(--bg-page);
-    color: var(--accent);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 5px 11px;
-    font-size: .73rem; font-weight: 600;
-    cursor: pointer; transition: background .15s;
-}
-.chip:hover { background: var(--accent-glow); border-color: var(--accent); }
+      /* Quick prompt chips */
+      .chips-row {
+        display: flex;
+        gap: 5px;
+        overflow-x: auto;
+        padding: 4px 0 6px;
+        scrollbar-width: none;
+      }
+      .chips-row::-webkit-scrollbar {
+        display: none;
+      }
+      .chip {
+        white-space: nowrap;
+        flex-shrink: 0;
+        background: var(--bg-page);
+        color: var(--accent);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 5px 11px;
+        font-size: 0.73rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.15s;
+      }
+      .chip:hover {
+        background: var(--accent-glow);
+        border-color: var(--accent);
+      }
 
-/* Input row */
-.input-row { display: flex; gap: 8px; align-items: flex-end; }
-#user-input {
-    flex: 1; padding: 10px 14px;
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius-btn);
-    font-size: .875rem; outline: none;
-    resize: none; max-height: 120px; line-height: 1.4;
-    font-family: inherit;
-    background: var(--bg-page); color: var(--text-primary);
-    transition: border-color .2s, background var(--transition), color var(--transition);
-}
-#user-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
-#user-input::placeholder { color: var(--text-muted); }
-#send-btn {
-    background: var(--accent); color: #fff; border: none;
-    border-radius: var(--radius-btn);
-    width: 42px; height: 42px; flex-shrink: 0;
-    cursor: pointer; font-size: 1rem;
-    display: flex; align-items: center; justify-content: center;
-    transition: background .2s, transform .1s;
-}
-#send-btn:hover  { background: var(--accent-dark); }
-#send-btn:active { transform: scale(.94); }
-#send-btn:disabled { background: var(--text-muted); cursor: not-allowed; }
+      /* Input row */
+      .input-row {
+        display: flex;
+        gap: 8px;
+        align-items: flex-end;
+      }
+      #user-input {
+        flex: 1;
+        padding: 10px 14px;
+        border: 1.5px solid var(--border);
+        border-radius: var(--radius-btn);
+        font-size: 0.875rem;
+        outline: none;
+        resize: none;
+        max-height: 120px;
+        line-height: 1.4;
+        font-family: inherit;
+        background: var(--bg-page);
+        color: var(--text-primary);
+        transition:
+          border-color 0.2s,
+          background var(--transition),
+          color var(--transition);
+      }
+      #user-input:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px var(--accent-glow);
+      }
+      #user-input::placeholder {
+        color: var(--text-muted);
+      }
+      #send-btn {
+        background: var(--accent);
+        color: #fff;
+        border: none;
+        border-radius: var(--radius-btn);
+        width: 42px;
+        height: 42px;
+        flex-shrink: 0;
+        cursor: pointer;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition:
+          background 0.2s,
+          transform 0.1s;
+      }
+      #send-btn:hover {
+        background: var(--accent-dark);
+      }
+      #send-btn:active {
+        transform: scale(0.94);
+      }
+      #send-btn:disabled {
+        background: var(--text-muted);
+        cursor: not-allowed;
+      }
 
-/* ═══════════════════════════════════════════════════
+      /* ═══════════════════════════════════════════════════
    DASHBOARD — Header & Stats
 ═══════════════════════════════════════════════════ */
-.dash-header {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 20px; flex-wrap: wrap; gap: 12px;
-}
-.dash-title { font-size: 1.55rem; font-weight: 800; color: var(--text-primary); }
-.dash-actions { display: flex; gap: 8px; align-items: center; }
-.status-badge {
-    background: rgba(16,185,129,.12); color: var(--success);
-    border: 1px solid rgba(16,185,129,.3);
-    padding: 5px 13px; border-radius: 999px;
-    font-size: .77rem; font-weight: 700;
-}
+      .dash-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .dash-title {
+        font-size: 1.55rem;
+        font-weight: 800;
+        color: var(--text-primary);
+      }
+      .dash-actions {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .status-badge {
+        background: rgba(16, 185, 129, 0.12);
+        color: var(--success);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        padding: 5px 13px;
+        border-radius: 999px;
+        font-size: 0.77rem;
+        font-weight: 700;
+      }
 
-/* Action buttons */
-.action-btn {
-    background: var(--bg-panel); color: var(--text-secondary);
-    border: 1px solid var(--border);
-    border-radius: 10px; padding: 6px 12px;
-    font-size: .77rem; font-weight: 600;
-    cursor: pointer;
-    display: flex; align-items: center; gap: 5px;
-    transition: background .15s, border-color .15s, color .15s;
-}
-.action-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
-.action-btn.copied { background: var(--success); color: #fff; border-color: var(--success); }
+      /* Action buttons */
+      .action-btn {
+        background: var(--bg-panel);
+        color: var(--text-secondary);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 6px 12px;
+        font-size: 0.77rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        transition:
+          background 0.15s,
+          border-color 0.15s,
+          color 0.15s;
+      }
+      .action-btn:hover {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+      }
+      .action-btn.copied {
+        background: var(--success);
+        color: #fff;
+        border-color: var(--success);
+      }
 
-/* Stats bar */
-.stats-bar { display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
-.stat-pill {
-    background: var(--bg-panel); border: 1px solid var(--border);
-    border-radius: 10px; padding: 10px 16px;
-    font-size: .8rem; color: var(--text-secondary);
-    display: flex; align-items: center; gap: 7px;
-    box-shadow: var(--shadow-card);
-    transition: background var(--transition), border-color var(--transition);
-}
-.stat-pill strong { color: var(--text-primary); font-size: 1rem; }
-.stat-pill i { width: 16px; text-align: center; }
+      /* Stats bar */
+      .stats-bar {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 18px;
+        flex-wrap: wrap;
+      }
+      .stat-pill {
+        background: var(--bg-panel);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px 16px;
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        box-shadow: var(--shadow-card);
+        transition:
+          background var(--transition),
+          border-color var(--transition);
+      }
+      .stat-pill strong {
+        color: var(--text-primary);
+        font-size: 1rem;
+      }
+      .stat-pill i {
+        width: 16px;
+        text-align: center;
+      }
 
-/* Progress bar */
-.progress-wrap { margin-bottom: 18px; }
-.progress-bar-bg {
-    background: var(--border); border-radius: 999px; height: 8px; overflow: hidden;
-    margin-bottom: 5px;
-}
-.progress-bar-fill {
-    height: 100%; border-radius: 999px;
-    background: linear-gradient(90deg, var(--accent), var(--success));
-    transition: width .4s ease;
-}
-.progress-label { font-size: .78rem; color: var(--text-muted); font-weight: 600; }
+      /* Progress bar */
+      .progress-wrap {
+        margin-bottom: 18px;
+      }
+      .progress-bar-bg {
+        background: var(--border);
+        border-radius: 999px;
+        height: 8px;
+        overflow: hidden;
+        margin-bottom: 5px;
+      }
+      .progress-bar-fill {
+        height: 100%;
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--accent), var(--success));
+        transition: width 0.4s ease;
+      }
+      .progress-label {
+        font-size: 0.78rem;
+        color: var(--text-muted);
+        font-weight: 600;
+      }
 
-/* ═══════════════════════════════════════════════════
+      /* ═══════════════════════════════════════════════════
    PLAN CARD & TASK CARDS
 ═══════════════════════════════════════════════════ */
-.plan-card {
-    background: var(--bg-panel); border: 1px solid var(--border);
-    border-radius: var(--radius-card); padding: 24px;
-    box-shadow: var(--shadow-card);
-    animation: slideUp .35s ease-out;
-    transition: background var(--transition), border-color var(--transition);
-}
-@keyframes slideUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-.plan-title-text {
-    font-size: 1.25rem; font-weight: 800; color: var(--accent-deeper);
-    margin-bottom: 4px;
-}
-[data-theme="dark"] .plan-title-text { color: var(--accent); }
-.plan-sub { font-size: .8rem; color: var(--text-muted); margin-bottom: 20px; }
+      .plan-card {
+        background: var(--bg-panel);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-card);
+        padding: 24px;
+        box-shadow: var(--shadow-card);
+        animation: slideUp 0.35s ease-out;
+        transition:
+          background var(--transition),
+          border-color var(--transition);
+      }
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .plan-title-text {
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: var(--accent-deeper);
+        margin-bottom: 4px;
+      }
+      [data-theme="dark"] .plan-title-text {
+        color: var(--accent);
+      }
+      .plan-sub {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        margin-bottom: 20px;
+      }
 
-/* Task grid */
-.task-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-    gap: 12px;
-}
+      /* Task grid */
+      .task-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+        gap: 12px;
+      }
 
-/* Individual task card */
-.task-card {
-    border: 1px solid var(--border);
-    border-radius: 12px; padding: 14px;
-    background: var(--bg-page);
-    transition: box-shadow .2s, border-color .2s, opacity .3s, background var(--transition);
-    cursor: default;
-    animation: cardIn .3s ease-out both;
-    position: relative; overflow: hidden;
-}
-@keyframes cardIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-.task-card::before {
-    content: '';
-    position: absolute; left: 0; top: 0; bottom: 0;
-    width: 4px; border-radius: 4px 0 0 4px;
-    background: var(--accent);
-}
-.task-card.urgency-high::before  { background: var(--danger); }
-.task-card.urgency-medium::before { background: var(--warn); }
-.task-card.urgency-low::before   { background: var(--success); }
-.task-card:hover { box-shadow: 0 4px 16px var(--accent-glow); border-color: var(--accent); }
-.task-card.done { opacity: .58; }
-.task-card.done .task-topic { text-decoration: line-through; color: var(--text-muted); }
+      /* Individual task card */
+      .task-card {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px;
+        background: var(--bg-page);
+        transition:
+          box-shadow 0.2s,
+          border-color 0.2s,
+          opacity 0.3s,
+          background var(--transition);
+        cursor: default;
+        animation: cardIn 0.3s ease-out both;
+        position: relative;
+        overflow: hidden;
+      }
+      @keyframes cardIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .task-card::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        border-radius: 4px 0 0 4px;
+        background: var(--accent);
+      }
+      .task-card.urgency-high::before {
+        background: var(--danger);
+      }
+      .task-card.urgency-medium::before {
+        background: var(--warn);
+      }
+      .task-card.urgency-low::before {
+        background: var(--success);
+      }
+      .task-card:hover {
+        box-shadow: 0 4px 16px var(--accent-glow);
+        border-color: var(--accent);
+      }
+      .task-card.done {
+        opacity: 0.58;
+      }
+      .task-card.done .task-topic {
+        text-decoration: line-through;
+        color: var(--text-muted);
+      }
 
-.task-day {
-    font-size: .78rem; font-weight: 700; color: var(--text-secondary);
-    margin-bottom: 6px; display: flex; align-items: center; gap: 5px;
-}
-.task-topic { font-size: .88rem; color: var(--text-primary); line-height: 1.4; margin-bottom: 8px; }
-.task-tip {
-    font-size: .74rem; color: var(--text-muted);
-    font-style: italic; margin-bottom: 10px; line-height: 1.35;
-    border-left: 2px solid var(--border); padding-left: 7px;
-}
-.task-meta { display: flex; align-items: center; justify-content: space-between; }
-.task-hours {
-    background: var(--accent-glow); color: var(--accent);
-    border-radius: 6px; padding: 3px 9px;
-    font-size: .73rem; font-weight: 700;
-}
-.urgency-badge {
-    font-size: .68rem; font-weight: 700; border-radius: 6px;
-    padding: 2px 7px; margin-left: 4px;
-}
-.urgency-badge.high   { background: rgba(239,68,68,.12);  color: var(--danger); }
-.urgency-badge.medium { background: rgba(245,158,11,.12); color: var(--warn); }
-.urgency-badge.low    { background: rgba(16,185,129,.12); color: var(--success); }
+      .task-day {
+        font-size: 0.78rem;
+        font-weight: 700;
+        color: var(--text-secondary);
+        margin-bottom: 6px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .task-topic {
+        font-size: 0.88rem;
+        color: var(--text-primary);
+        line-height: 1.4;
+        margin-bottom: 8px;
+      }
+      .task-tip {
+        font-size: 0.74rem;
+        color: var(--text-muted);
+        font-style: italic;
+        margin-bottom: 10px;
+        line-height: 1.35;
+        border-left: 2px solid var(--border);
+        padding-left: 7px;
+      }
+      .task-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .task-hours {
+        background: var(--accent-glow);
+        color: var(--accent);
+        border-radius: 6px;
+        padding: 3px 9px;
+        font-size: 0.73rem;
+        font-weight: 700;
+      }
+      .urgency-badge {
+        font-size: 0.68rem;
+        font-weight: 700;
+        border-radius: 6px;
+        padding: 2px 7px;
+        margin-left: 4px;
+      }
+      .urgency-badge.high {
+        background: rgba(239, 68, 68, 0.12);
+        color: var(--danger);
+      }
+      .urgency-badge.medium {
+        background: rgba(245, 158, 11, 0.12);
+        color: var(--warn);
+      }
+      .urgency-badge.low {
+        background: rgba(16, 185, 129, 0.12);
+        color: var(--success);
+      }
 
-.task-check {
-    width: 24px; height: 24px;
-    border: 2px solid var(--border-strong);
-    border-radius: 50%; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    font-size: .65rem; color: transparent;
-    transition: all .2s;
-}
-.task-check:hover  { border-color: var(--success); color: var(--success); }
-.task-check.checked { border-color: var(--success); background: var(--success); color: #fff; }
+      .task-check {
+        width: 24px;
+        height: 24px;
+        border: 2px solid var(--border-strong);
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.65rem;
+        color: transparent;
+        transition: all 0.2s;
+      }
+      .task-check:hover {
+        border-color: var(--success);
+        color: var(--success);
+      }
+      .task-check.checked {
+        border-color: var(--success);
+        background: var(--success);
+        color: #fff;
+      }
 
-/* Pomodoro timer */
-.task-timer-btn {
-    background: none; border: 1px solid var(--border);
-    border-radius: 6px; padding: 2px 7px;
-    font-size: .7rem; color: var(--text-muted);
-    cursor: pointer; transition: all .15s;
-    display: flex; align-items: center; gap: 3px;
-}
-.task-timer-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
-.task-timer-btn.running { background: var(--danger); color: #fff; border-color: var(--danger); animation: pulse 1.5s infinite; }
-@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .7; } }
+      /* Pomodoro timer */
+      .task-timer-btn {
+        background: none;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 2px 7px;
+        font-size: 0.7rem;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: all 0.15s;
+        display: flex;
+        align-items: center;
+        gap: 3px;
+      }
+      .task-timer-btn:hover {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+      }
+      .task-timer-btn.running {
+        background: var(--danger);
+        color: #fff;
+        border-color: var(--danger);
+        animation: pulse 1.5s infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.7;
+        }
+      }
 
-/* ═══════════════════════════════════════════════════
+      /* ═══════════════════════════════════════════════════
    POMODORO MODAL
 ═══════════════════════════════════════════════════ */
-.pomodoro-overlay {
-    display: none;
-    position: fixed; inset: 0; z-index: 200;
-    background: rgba(0,0,0,.55);
-    align-items: center; justify-content: center;
-}
-.pomodoro-overlay.open { display: flex; }
-.pomodoro-modal {
-    background: var(--bg-panel); border: 1px solid var(--border);
-    border-radius: 20px; padding: 32px 28px 24px;
-    width: 300px; text-align: center;
-    box-shadow: 0 20px 60px rgba(0,0,0,.3);
-    animation: popIn .2s ease-out;
-}
-@keyframes popIn { from { transform: scale(.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-.pomo-title { font-size: .8rem; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
-.pomo-subject { font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 20px; line-height: 1.3; }
-.pomo-timer { font-size: 3.5rem; font-weight: 800; color: var(--accent); font-variant-numeric: tabular-nums; margin-bottom: 20px; }
-.pomo-timer.warning { color: var(--warn); }
-.pomo-timer.done-color { color: var(--success); }
-.pomo-ring {
-    width: 120px; height: 120px; margin: 0 auto 20px;
-    position: relative;
-}
-.pomo-ring svg { transform: rotate(-90deg); }
-.pomo-ring-bg { fill: none; stroke: var(--border); stroke-width: 8; }
-.pomo-ring-fill { fill: none; stroke: var(--accent); stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset .9s linear; }
-.pomo-controls { display: flex; gap: 10px; justify-content: center; }
-.pomo-btn {
-    background: var(--accent); color: #fff;
-    border: none; border-radius: 10px;
-    padding: 10px 20px; font-size: .9rem; font-weight: 700;
-    cursor: pointer; transition: background .15s;
-}
-.pomo-btn:hover { background: var(--accent-dark); }
-.pomo-btn.secondary { background: var(--bg-page); color: var(--text-secondary); border: 1px solid var(--border); }
-.pomo-btn.secondary:hover { background: var(--danger); color: #fff; border-color: var(--danger); }
+      .pomodoro-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 200;
+        background: rgba(0, 0, 0, 0.55);
+        align-items: center;
+        justify-content: center;
+      }
+      .pomodoro-overlay.open {
+        display: flex;
+      }
+      .pomodoro-modal {
+        background: var(--bg-panel);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 32px 28px 24px;
+        width: 300px;
+        text-align: center;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        animation: popIn 0.2s ease-out;
+      }
+      @keyframes popIn {
+        from {
+          transform: scale(0.92);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      .pomo-title {
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: var(--text-muted);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+      }
+      .pomo-subject {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 20px;
+        line-height: 1.3;
+      }
+      .pomo-timer {
+        font-size: 3.5rem;
+        font-weight: 800;
+        color: var(--accent);
+        font-variant-numeric: tabular-nums;
+        margin-bottom: 20px;
+      }
+      .pomo-timer.warning {
+        color: var(--warn);
+      }
+      .pomo-timer.done-color {
+        color: var(--success);
+      }
+      .pomo-ring {
+        width: 120px;
+        height: 120px;
+        margin: 0 auto 20px;
+        position: relative;
+      }
+      .pomo-ring svg {
+        transform: rotate(-90deg);
+      }
+      .pomo-ring-bg {
+        fill: none;
+        stroke: var(--border);
+        stroke-width: 8;
+      }
+      .pomo-ring-fill {
+        fill: none;
+        stroke: var(--accent);
+        stroke-width: 8;
+        stroke-linecap: round;
+        transition: stroke-dashoffset 0.9s linear;
+      }
+      .pomo-controls {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+      }
+      .pomo-btn {
+        background: var(--accent);
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background 0.15s;
+      }
+      .pomo-btn:hover {
+        background: var(--accent-dark);
+      }
+      .pomo-btn.secondary {
+        background: var(--bg-page);
+        color: var(--text-secondary);
+        border: 1px solid var(--border);
+      }
+      .pomo-btn.secondary:hover {
+        background: var(--danger);
+        color: #fff;
+        border-color: var(--danger);
+      }
 
-/* ═══════════════════════════════════════════════════
+      /* ═══════════════════════════════════════════════════
    EMPTY STATE
 ═══════════════════════════════════════════════════ */
-.empty-state {
-    border: 2px dashed var(--border);
-    border-radius: var(--radius-card);
-    background: var(--bg-panel);
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    min-height: 280px; color: var(--text-muted); text-align: center; padding: 48px 24px;
-    transition: background var(--transition), border-color var(--transition);
-}
-.empty-state i { font-size: 2.8rem; margin-bottom: 14px; color: var(--border-strong); }
-.empty-state p { font-size: .9rem; color: var(--text-secondary); font-weight: 600; margin-bottom: 5px; }
-.empty-state span { font-size: .78rem; color: var(--text-muted); }
+      .empty-state {
+        border: 2px dashed var(--border);
+        border-radius: var(--radius-card);
+        background: var(--bg-panel);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 280px;
+        color: var(--text-muted);
+        text-align: center;
+        padding: 48px 24px;
+        transition:
+          background var(--transition),
+          border-color var(--transition);
+      }
+      .empty-state i {
+        font-size: 2.8rem;
+        margin-bottom: 14px;
+        color: var(--border-strong);
+      }
+      .empty-state p {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+      .empty-state span {
+        font-size: 0.78rem;
+        color: var(--text-muted);
+      }
 
-/* ═══════════════════════════════════════════════════
+      /* ═══════════════════════════════════════════════════
    TOAST NOTIFICATION
 ═══════════════════════════════════════════════════ */
-.toast {
-    position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px);
-    background: var(--text-primary); color: var(--bg-panel);
-    padding: 10px 20px; border-radius: 999px;
-    font-size: .82rem; font-weight: 600;
-    z-index: 300; opacity: 0; pointer-events: none;
-    transition: opacity .25s, transform .25s;
-    white-space: nowrap;
-}
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+      .toast {
+        position: fixed;
+        bottom: 80px;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        background: var(--text-primary);
+        color: var(--bg-panel);
+        padding: 10px 20px;
+        border-radius: 999px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        z-index: 300;
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity 0.25s,
+          transform 0.25s;
+        white-space: nowrap;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
 
-/* ═══════════════════════════════════════════════════
+      /* ═══════════════════════════════════════════════════
    MOBILE LAYOUT
 ═══════════════════════════════════════════════════ */
-@media (max-width: 768px) {
-    .app-shell { display: block; height: auto; overflow: auto; min-height: 100vh; }
+      @media (max-width: 768px) {
+        .app-shell {
+          display: block;
+          height: auto;
+          overflow: auto;
+          min-height: 100vh;
+        }
 
-    .chat-panel {
-        width: 100%; min-width: unset;
-        border-right: none;
-        height: calc(100vh - 56px);
-        position: fixed; top: 0; left: 0; right: 0;
-        transform: translateX(0);
-        transition: transform .3s cubic-bezier(.4,0,.2,1);
-        z-index: 20;
-    }
-    .chat-panel.mobile-hidden { transform: translateX(-100%); }
+        .chat-panel {
+          width: 100%;
+          min-width: unset;
+          border-right: none;
+          height: calc(100vh - 56px);
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          transform: translateX(0);
+          transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          z-index: 20;
+        }
+        .chat-panel.mobile-hidden {
+          transform: translateX(-100%);
+        }
 
-    .dash-panel {
-        position: fixed; top: 0; left: 0; right: 0; bottom: 56px;
-        overflow-y: auto; padding: 18px 14px 24px;
-        transform: translateX(100%);
-        transition: transform .3s cubic-bezier(.4,0,.2,1);
-    }
-    .dash-panel.mobile-visible { transform: translateX(0); }
+        .dash-panel {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 56px;
+          overflow-y: auto;
+          padding: 18px 14px 24px;
+          transform: translateX(100%);
+          transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .dash-panel.mobile-visible {
+          transform: translateX(0);
+        }
 
-    .mobile-tabs { display: flex; }
+        .mobile-tabs {
+          display: flex;
+        }
 
-    .mob-tab {
-        flex: 1; background: none; border: none;
-        display: flex; flex-direction: column; align-items: center; justify-content: center;
-        padding: 8px 0; gap: 2px;
-        font-size: .7rem; font-weight: 600; color: var(--text-muted);
-        cursor: pointer; transition: color .15s; position: relative;
-    }
-    .mob-tab i { font-size: 1.1rem; }
-    .mob-tab.active { color: var(--accent); }
-    .mob-tab-bar { height: 3px; background: var(--accent); border-radius: 2px; width: 22px; opacity: 0; transition: opacity .15s; }
-    .mob-tab.active .mob-tab-bar { opacity: 1; }
-    .plan-notif-dot {
-        display: none; position: absolute; top: 7px; right: calc(50% - 24px);
-        width: 8px; height: 8px; background: var(--danger); border-radius: 50%;
-        border: 2px solid var(--bg-panel);
-    }
+        .mob-tab {
+          flex: 1;
+          background: none;
+          border: none;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 8px 0;
+          gap: 2px;
+          font-size: 0.7rem;
+          font-weight: 600;
+          color: var(--text-muted);
+          cursor: pointer;
+          transition: color 0.15s;
+          position: relative;
+        }
+        .mob-tab i {
+          font-size: 1.1rem;
+        }
+        .mob-tab.active {
+          color: var(--accent);
+        }
+        .mob-tab-bar {
+          height: 3px;
+          background: var(--accent);
+          border-radius: 2px;
+          width: 22px;
+          opacity: 0;
+          transition: opacity 0.15s;
+        }
+        .mob-tab.active .mob-tab-bar {
+          opacity: 1;
+        }
+        .plan-notif-dot {
+          display: none;
+          position: absolute;
+          top: 7px;
+          right: calc(50% - 24px);
+          width: 8px;
+          height: 8px;
+          background: var(--danger);
+          border-radius: 50%;
+          border: 2px solid var(--bg-panel);
+        }
 
-    .task-grid { grid-template-columns: 1fr; }
-    .stats-bar { gap: 7px; }
-    .stat-pill { flex: 1; min-width: 100px; }
-    .dash-header { margin-bottom: 14px; }
-    .plan-card { padding: 16px; }
-    .dash-title { font-size: 1.25rem; }
-    .toast { bottom: 68px; }
-    .pomodoro-overlay { padding: 16px; }
-}
+        .task-grid {
+          grid-template-columns: 1fr;
+        }
+        .stats-bar {
+          gap: 7px;
+        }
+        .stat-pill {
+          flex: 1;
+          min-width: 100px;
+        }
+        .dash-header {
+          margin-bottom: 14px;
+        }
+        .plan-card {
+          padding: 16px;
+        }
+        .dash-title {
+          font-size: 1.25rem;
+        }
+        .toast {
+          bottom: 68px;
+        }
+        .pomodoro-overlay {
+          padding: 16px;
+        }
+      }
     </style>
-</head>
-<body>
-
-<!-- ═══════════════════════════════════════════════
+  </head>
+  <body>
+    <!-- ═══════════════════════════════════════════════
      APP SHELL
 ═══════════════════════════════════════════════════ -->
-<div class="app-shell" id="app-shell">
-
-    <!-- ███ LEFT: CHAT PANEL ███ -->
-    <div class="chat-panel" id="chat-panel">
-
+    <div class="app-shell" id="app-shell">
+      <!-- ███ LEFT: CHAT PANEL ███ -->
+      <div class="chat-panel" id="chat-panel">
         <!-- Header with SVG Logo -->
         <div class="chat-header">
-            <div class="header-row">
-                <div class="logo-row">
-                    <!-- Inline SVG shield logo -->
-                    <svg width="44" height="50" viewBox="0 0 88 100" xmlns="http://www.w3.org/2000/svg" aria-label="Aegis shield">
-                        <path d="M44,3 L85,20 L85,58 Q85,84 44,97 Q3,84 3,58 L3,20 Z" fill="rgba(255,255,255,0.14)"/>
-                        <path d="M44,7 L81,23 L81,58 Q81,81 44,93 Q7,81 7,58 L7,23 Z" fill="rgba(255,255,255,0.2)"/>
-                        <path d="M44,9 L77,24 L77,32 L44,18 L11,32 L11,24 Z" fill="rgba(255,255,255,0.28)"/>
-                        <g stroke="rgba(255,255,255,0.42)" stroke-width="1" fill="none">
-                            <line x1="30" y1="42" x2="58" y2="42"/>
-                            <line x1="30" y1="54" x2="58" y2="54"/>
-                            <line x1="35" y1="36" x2="35" y2="72"/>
-                            <line x1="44" y1="30" x2="44" y2="80"/>
-                            <line x1="53" y1="36" x2="53" y2="72"/>
-                        </g>
-                        <g fill="rgba(255,255,255,0.65)">
-                            <circle cx="35" cy="42" r="2.4"/>
-                            <circle cx="53" cy="42" r="2.4"/>
-                            <circle cx="35" cy="54" r="2.4"/>
-                            <circle cx="53" cy="54" r="2.4"/>
-                            <circle cx="44" cy="66" r="2.4"/>
-                        </g>
-                        <circle cx="44" cy="48" r="7.5" fill="rgba(255,255,255,0.28)"/>
-                        <circle cx="44" cy="48" r="3.8" fill="white"/>
-                    </svg>
-                    <div>
-                        <div class="logo-text-main">AEGIS<span class="dim"> PLANNER</span></div>
-                        <div class="logo-tagline">Your Autonomous Academic Shield</div>
-                    </div>
+          <div class="header-row">
+            <div class="logo-row">
+              <!-- Inline SVG shield logo -->
+              <svg
+                width="44"
+                height="50"
+                viewBox="0 0 88 100"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-label="Aegis shield"
+              >
+                <path
+                  d="M44,3 L85,20 L85,58 Q85,84 44,97 Q3,84 3,58 L3,20 Z"
+                  fill="rgba(255,255,255,0.14)"
+                />
+                <path
+                  d="M44,7 L81,23 L81,58 Q81,81 44,93 Q7,81 7,58 L7,23 Z"
+                  fill="rgba(255,255,255,0.2)"
+                />
+                <path
+                  d="M44,9 L77,24 L77,32 L44,18 L11,32 L11,24 Z"
+                  fill="rgba(255,255,255,0.28)"
+                />
+                <g stroke="rgba(255,255,255,0.42)" stroke-width="1" fill="none">
+                  <line x1="30" y1="42" x2="58" y2="42" />
+                  <line x1="30" y1="54" x2="58" y2="54" />
+                  <line x1="35" y1="36" x2="35" y2="72" />
+                  <line x1="44" y1="30" x2="44" y2="80" />
+                  <line x1="53" y1="36" x2="53" y2="72" />
+                </g>
+                <g fill="rgba(255,255,255,0.65)">
+                  <circle cx="35" cy="42" r="2.4" />
+                  <circle cx="53" cy="42" r="2.4" />
+                  <circle cx="35" cy="54" r="2.4" />
+                  <circle cx="53" cy="54" r="2.4" />
+                  <circle cx="44" cy="66" r="2.4" />
+                </g>
+                <circle cx="44" cy="48" r="7.5" fill="rgba(255,255,255,0.28)" />
+                <circle cx="44" cy="48" r="3.8" fill="white" />
+              </svg>
+              <div>
+                <div class="logo-text-main">
+                  AEGIS<span class="dim"> PLANNER</span>
                 </div>
-                <!-- Dark mode toggle -->
-                <button class="theme-btn" id="theme-btn" title="Toggle dark mode" onclick="toggleTheme()">
-                    <i class="fa-solid fa-moon" id="theme-icon"></i>
-                </button>
+                <div class="logo-tagline">Your Autonomous Academic Shield</div>
+              </div>
             </div>
-            <div class="logo-byline"><i class="fa-solid fa-code" style="margin-right:4px;"></i> Built by Abhishek Kumar</div>
+            <!-- Dark mode toggle -->
+            <button
+              class="theme-btn"
+              id="theme-btn"
+              title="Toggle dark mode"
+              onclick="toggleTheme()"
+            >
+              <i class="fa-solid fa-moon" id="theme-icon"></i>
+            </button>
+          </div>
+          <div class="logo-byline">
+            <i class="fa-solid fa-code" style="margin-right: 4px"></i> Built by
+            Abhishek Kumar
+          </div>
         </div>
 
         <!-- Chat messages -->
         <div id="chat-history">
-            <div class="msg-ai">
-                Hi! I'm <strong>Aegis</strong> — your Academic Copilot. Tell me your exam, deadline, or backlog and I'll generate a day-by-day action plan instantly. 🛡️
-            </div>
+          <div class="msg-ai">
+            Hi! I'm <strong>Aegis</strong> — your Academic Copilot. Tell me your
+            exam, deadline, or backlog and I'll generate a day-by-day action
+            plan instantly. 🛡️
+          </div>
         </div>
 
         <!-- Input area -->
         <div class="input-area">
-            <!-- Difficulty selector -->
-            <div class="diff-row" id="diff-row">
-                <span style="font-size:.7rem;color:var(--text-muted);font-weight:600;align-self:center;white-space:nowrap;">Difficulty:</span>
-                <span class="diff-chip" data-val="easy" onclick="setDifficulty(this)">Easy</span>
-                <span class="diff-chip active" data-val="medium" onclick="setDifficulty(this)">Medium</span>
-                <span class="diff-chip" data-val="hard" onclick="setDifficulty(this)">Hard</span>
-                <span class="diff-chip" data-val="very hard" onclick="setDifficulty(this)">Very Hard</span>
-            </div>
-            <!-- Quick prompts -->
-            <div class="chips-row" id="chips-row">
-                <span class="chip" onclick="useChip(this)">OS exam this Friday</span>
-                <span class="chip" onclick="useChip(this)">DBMS backlog, 3 days left</span>
-                <span class="chip" onclick="useChip(this)">5 subjects, exam Monday</span>
-                <span class="chip" onclick="useChip(this)">Maths unit test tomorrow</span>
-                <span class="chip" onclick="useChip(this)">Add a revision day</span>
-                <span class="chip" onclick="useChip(this)">Make the plan harder</span>
-            </div>
-            <!-- Text input -->
-            <div class="input-row">
-                <textarea id="user-input" rows="1" placeholder="E.g., I have OS and DBMS exams starting Monday…"></textarea>
-                <button id="send-btn" title="Send (Enter)">
-                    <i class="fa-solid fa-paper-plane"></i>
-                </button>
-            </div>
+          <!-- Difficulty selector -->
+          <div class="diff-row" id="diff-row">
+            <span
+              style="
+                font-size: 0.7rem;
+                color: var(--text-muted);
+                font-weight: 600;
+                align-self: center;
+                white-space: nowrap;
+              "
+              >Difficulty:</span
+            >
+            <span
+              class="diff-chip"
+              data-val="easy"
+              onclick="setDifficulty(this)"
+              >Easy</span
+            >
+            <span
+              class="diff-chip active"
+              data-val="medium"
+              onclick="setDifficulty(this)"
+              >Medium</span
+            >
+            <span
+              class="diff-chip"
+              data-val="hard"
+              onclick="setDifficulty(this)"
+              >Hard</span
+            >
+            <span
+              class="diff-chip"
+              data-val="very hard"
+              onclick="setDifficulty(this)"
+              >Very Hard</span
+            >
+          </div>
+          <!-- Quick prompts -->
+          <div class="chips-row" id="chips-row">
+            <span class="chip" onclick="useChip(this)"
+              >OS exam this Friday</span
+            >
+            <span class="chip" onclick="useChip(this)"
+              >DBMS backlog, 3 days left</span
+            >
+            <span class="chip" onclick="useChip(this)"
+              >5 subjects, exam Monday</span
+            >
+            <span class="chip" onclick="useChip(this)"
+              >Maths unit test tomorrow</span
+            >
+            <span class="chip" onclick="useChip(this)">Add a revision day</span>
+            <span class="chip" onclick="useChip(this)"
+              >Make the plan harder</span
+            >
+          </div>
+          <!-- Text input -->
+          <div class="input-row">
+            <textarea
+              id="user-input"
+              rows="1"
+              placeholder="E.g., I have OS and DBMS exams starting Monday…"
+            ></textarea>
+            <button id="send-btn" title="Send (Enter)">
+              <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </div>
         </div>
+      </div>
+
+      <!-- ███ RIGHT: DASHBOARD PANEL ███ -->
+      <div class="dash-panel" id="dash-panel">
+        <div style="max-width: 960px; margin: 0 auto">
+          <!-- Dashboard header -->
+          <div class="dash-header">
+            <h2 class="dash-title">Action Plan Dashboard</h2>
+            <div class="dash-actions">
+              <button
+                class="action-btn"
+                id="copy-btn"
+                onclick="copyPlan()"
+                style="display: none"
+                title="Copy plan as text"
+              >
+                <i class="fa-regular fa-copy"></i> Copy Plan
+              </button>
+              <button
+                class="action-btn"
+                id="share-btn"
+                onclick="sharePlan()"
+                style="display: none"
+                title="Share plan link"
+              >
+                <i class="fa-solid fa-share-nodes"></i> Share
+              </button>
+              <span class="status-badge">
+                <i class="fa-solid fa-robot" style="margin-right: 4px"></i> AI
+                Agent Active
+              </span>
+            </div>
+          </div>
+
+          <!-- Stats row -->
+          <div class="stats-bar" id="stats-bar" style="display: none">
+            <div class="stat-pill">
+              <i
+                class="fa-regular fa-calendar"
+                style="color: var(--accent)"
+              ></i>
+              <span><strong id="stat-days">0</strong> sessions</span>
+            </div>
+            <div class="stat-pill">
+              <i class="fa-regular fa-clock" style="color: #7c3aed"></i>
+              <span><strong id="stat-hours">0</strong> hrs total</span>
+            </div>
+            <div class="stat-pill">
+              <i
+                class="fa-solid fa-circle-check"
+                style="color: var(--success)"
+              ></i>
+              <span
+                ><strong id="stat-done">0</strong> /
+                <span id="stat-total">0</span> done</span
+              >
+            </div>
+            <div class="stat-pill" id="stat-pomo-pill" style="display: none">
+              <i class="fa-solid fa-stopwatch" style="color: var(--danger)"></i>
+              <span><strong id="stat-pomos">0</strong> pomodoros</span>
+            </div>
+          </div>
+
+          <!-- Progress bar -->
+          <div class="progress-wrap" id="progress-wrap" style="display: none">
+            <div class="progress-bar-bg">
+              <div
+                class="progress-bar-fill"
+                id="progress-fill"
+                style="width: 0%"
+              ></div>
+            </div>
+            <div class="progress-label" id="progress-label">
+              0% complete — keep going!
+            </div>
+          </div>
+
+          <!-- Main content area -->
+          <div id="dashboard-content" class="empty-state">
+            <i class="fa-solid fa-calendar-check"></i>
+            <p>Your plan will appear here</p>
+            <span>Tell Aegis what you need to study on the left ←</span>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- ███ RIGHT: DASHBOARD PANEL ███ -->
-    <div class="dash-panel" id="dash-panel">
-        <div style="max-width:960px;margin:0 auto;">
-
-            <!-- Dashboard header -->
-            <div class="dash-header">
-                <h2 class="dash-title">Action Plan Dashboard</h2>
-                <div class="dash-actions">
-                    <button class="action-btn" id="copy-btn" onclick="copyPlan()" style="display:none;" title="Copy plan as text">
-                        <i class="fa-regular fa-copy"></i> Copy Plan
-                    </button>
-                    <button class="action-btn" id="share-btn" onclick="sharePlan()" style="display:none;" title="Share plan link">
-                        <i class="fa-solid fa-share-nodes"></i> Share
-                    </button>
-                    <span class="status-badge">
-                        <i class="fa-solid fa-robot" style="margin-right:4px;"></i> AI Agent Active
-                    </span>
-                </div>
-            </div>
-
-            <!-- Stats row -->
-            <div class="stats-bar" id="stats-bar" style="display:none;">
-                <div class="stat-pill">
-                    <i class="fa-regular fa-calendar" style="color:var(--accent);"></i>
-                    <span><strong id="stat-days">0</strong> sessions</span>
-                </div>
-                <div class="stat-pill">
-                    <i class="fa-regular fa-clock" style="color:#7c3aed;"></i>
-                    <span><strong id="stat-hours">0</strong> hrs total</span>
-                </div>
-                <div class="stat-pill">
-                    <i class="fa-solid fa-circle-check" style="color:var(--success);"></i>
-                    <span><strong id="stat-done">0</strong> / <span id="stat-total">0</span> done</span>
-                </div>
-                <div class="stat-pill" id="stat-pomo-pill" style="display:none;">
-                    <i class="fa-solid fa-stopwatch" style="color:var(--danger);"></i>
-                    <span><strong id="stat-pomos">0</strong> pomodoros</span>
-                </div>
-            </div>
-
-            <!-- Progress bar -->
-            <div class="progress-wrap" id="progress-wrap" style="display:none;">
-                <div class="progress-bar-bg">
-                    <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
-                </div>
-                <div class="progress-label" id="progress-label">0% complete — keep going!</div>
-            </div>
-
-            <!-- Main content area -->
-            <div id="dashboard-content" class="empty-state">
-                <i class="fa-solid fa-calendar-check"></i>
-                <p>Your plan will appear here</p>
-                <span>Tell Aegis what you need to study on the left ←</span>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<!-- ═══ Mobile Bottom Tabs ═══ -->
-<div class="mobile-tabs" id="mobile-tabs">
-    <button class="mob-tab active" id="tab-chat" onclick="switchTab('chat')">
+    <!-- ═══ Mobile Bottom Tabs ═══ -->
+    <div class="mobile-tabs" id="mobile-tabs">
+      <button class="mob-tab active" id="tab-chat" onclick="switchTab('chat')">
         <i class="fa-solid fa-comment-dots"></i>
         <span>Chat</span>
         <div class="mob-tab-bar"></div>
-    </button>
-    <button class="mob-tab" id="tab-plan" onclick="switchTab('plan')">
+      </button>
+      <button class="mob-tab" id="tab-plan" onclick="switchTab('plan')">
         <i class="fa-solid fa-calendar-check"></i>
         <span>My Plan</span>
         <div class="mob-tab-bar"></div>
         <span class="plan-notif-dot" id="plan-dot"></span>
-    </button>
-</div>
+      </button>
+    </div>
 
-<!-- ═══ Pomodoro Modal ═══ -->
-<div class="pomodoro-overlay" id="pomo-overlay" onclick="closePomoOnBg(event)">
-    <div class="pomodoro-modal" id="pomo-modal">
+    <!-- ═══ Pomodoro Modal ═══ -->
+    <div
+      class="pomodoro-overlay"
+      id="pomo-overlay"
+      onclick="closePomoOnBg(event)"
+    >
+      <div class="pomodoro-modal" id="pomo-modal">
         <div class="pomo-title">Focus Session</div>
         <div class="pomo-subject" id="pomo-subject">Loading…</div>
         <div class="pomo-ring">
-            <svg width="120" height="120" viewBox="0 0 120 120">
-                <circle class="pomo-ring-bg" cx="60" cy="60" r="52"/>
-                <circle class="pomo-ring-fill" id="pomo-ring-fill" cx="60" cy="60" r="52"
-                    stroke-dasharray="326.73" stroke-dashoffset="0"/>
-            </svg>
-            <div id="pomo-time" class="pomo-timer" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-55%);">25:00</div>
+          <svg width="120" height="120" viewBox="0 0 120 120">
+            <circle class="pomo-ring-bg" cx="60" cy="60" r="52" />
+            <circle
+              class="pomo-ring-fill"
+              id="pomo-ring-fill"
+              cx="60"
+              cy="60"
+              r="52"
+              stroke-dasharray="326.73"
+              stroke-dashoffset="0"
+            />
+          </svg>
+          <div
+            id="pomo-time"
+            class="pomo-timer"
+            style="
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -55%);
+            "
+          >
+            25:00
+          </div>
         </div>
         <div class="pomo-controls">
-            <button class="pomo-btn" id="pomo-play" onclick="togglePomo()">
-                <i class="fa-solid fa-play"></i> Start
-            </button>
-            <button class="pomo-btn secondary" onclick="closePomo()">
-                <i class="fa-solid fa-xmark"></i> Close
-            </button>
+          <button class="pomo-btn" id="pomo-play" onclick="togglePomo()">
+            <i class="fa-solid fa-play"></i> Start
+          </button>
+          <button class="pomo-btn secondary" onclick="closePomo()">
+            <i class="fa-solid fa-xmark"></i> Close
+          </button>
         </div>
+      </div>
     </div>
-</div>
 
-<!-- Toast -->
-<div class="toast" id="toast"></div>
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
 
-<!-- ═══════════════════════════════════════════════
+    <!-- ═══════════════════════════════════════════════
      JAVASCRIPT
 ═══════════════════════════════════════════════════ -->
-<script>
-/* ─────────────────────────────────────────────────
+    <script>
+      /* ─────────────────────────────────────────────────
    STATE
 ───────────────────────────────────────────────── */
-let conversationHistory = [];
-let currentPlan         = null;
-let doneSet             = new Set();
-let pomodoroCount       = 0;
-let selectedDifficulty  = 'medium';
-let pomoInterval        = null;
-let pomoSeconds         = 25 * 60;
-let pomoRunning         = false;
-let pomoTaskIdx         = -1;
-const POMO_TOTAL        = 25 * 60;
-const RING_CIRC         = 326.73;
+      let conversationHistory = [];
+      let currentPlan = null;
+      let doneSet = new Set();
+      let pomodoroCount = 0;
+      let selectedDifficulty = "medium";
+      let pomoInterval = null;
+      let pomoSeconds = 25 * 60;
+      let pomoRunning = false;
+      let pomoTaskIdx = -1;
+      const POMO_TOTAL = 25 * 60;
+      const RING_CIRC = 326.73;
 
-const isMobile = () => window.innerWidth <= 768;
+      const isMobile = () => window.innerWidth <= 768;
 
-/* ─────────────────────────────────────────────────
+      /* ─────────────────────────────────────────────────
    DOM REFS
 ───────────────────────────────────────────────── */
-const chatHistoryEl  = document.getElementById('chat-history');
-const userInputEl    = document.getElementById('user-input');
-const sendBtnEl      = document.getElementById('send-btn');
-const dashboardEl    = document.getElementById('dashboard-content');
-const statsBarEl     = document.getElementById('stats-bar');
-const progressWrapEl = document.getElementById('progress-wrap');
-const progressFillEl = document.getElementById('progress-fill');
-const progressLblEl  = document.getElementById('progress-label');
+      const chatHistoryEl = document.getElementById("chat-history");
+      const userInputEl = document.getElementById("user-input");
+      const sendBtnEl = document.getElementById("send-btn");
+      const dashboardEl = document.getElementById("dashboard-content");
+      const statsBarEl = document.getElementById("stats-bar");
+      const progressWrapEl = document.getElementById("progress-wrap");
+      const progressFillEl = document.getElementById("progress-fill");
+      const progressLblEl = document.getElementById("progress-label");
 
-/* ─────────────────────────────────────────────────
+      /* ─────────────────────────────────────────────────
    THEME
 ───────────────────────────────────────────────── */
-function toggleTheme() {
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-    document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
-    document.getElementById('theme-icon').className = isDark ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
-    localStorage.setItem('aegis-theme', isDark ? 'light' : 'dark');
-}
-// Restore saved theme
-(function() {
-    const saved = localStorage.getItem('aegis-theme');
-    if (saved === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        document.getElementById('theme-icon').className = 'fa-solid fa-sun';
-    }
-})();
+      function toggleTheme() {
+        const isDark =
+          document.documentElement.getAttribute("data-theme") === "dark";
+        document.documentElement.setAttribute(
+          "data-theme",
+          isDark ? "light" : "dark",
+        );
+        document.getElementById("theme-icon").className = isDark
+          ? "fa-solid fa-moon"
+          : "fa-solid fa-sun";
+        localStorage.setItem("aegis-theme", isDark ? "light" : "dark");
+      }
+      // Restore saved theme
+      (function () {
+        const saved = localStorage.getItem("aegis-theme");
+        if (saved === "dark") {
+          document.documentElement.setAttribute("data-theme", "dark");
+          document.getElementById("theme-icon").className = "fa-solid fa-sun";
+        }
+      })();
 
-/* ─────────────────────────────────────────────────
+      /* ─────────────────────────────────────────────────
    TEXTAREA AUTO-RESIZE
 ───────────────────────────────────────────────── */
-userInputEl.addEventListener('input', () => {
-    userInputEl.style.height = 'auto';
-    userInputEl.style.height = Math.min(userInputEl.scrollHeight, 120) + 'px';
-});
+      userInputEl.addEventListener("input", () => {
+        userInputEl.style.height = "auto";
+        userInputEl.style.height =
+          Math.min(userInputEl.scrollHeight, 120) + "px";
+      });
 
-/* ─────────────────────────────────────────────────
+      /* ─────────────────────────────────────────────────
    DIFFICULTY CHIPS
 ───────────────────────────────────────────────── */
-function setDifficulty(el) {
-    document.querySelectorAll('.diff-chip').forEach(c => c.classList.remove('active'));
-    el.classList.add('active');
-    selectedDifficulty = el.dataset.val;
-}
+      function setDifficulty(el) {
+        document
+          .querySelectorAll(".diff-chip")
+          .forEach((c) => c.classList.remove("active"));
+        el.classList.add("active");
+        selectedDifficulty = el.dataset.val;
+      }
 
-/* ─────────────────────────────────────────────────
+      /* ─────────────────────────────────────────────────
    QUICK CHIPS
 ───────────────────────────────────────────────── */
-function useChip(el) {
-    userInputEl.value = el.textContent.trim();
-    userInputEl.focus();
-    userInputEl.style.height = 'auto';
-    userInputEl.style.height = Math.min(userInputEl.scrollHeight, 120) + 'px';
-}
+      function useChip(el) {
+        userInputEl.value = el.textContent.trim();
+        userInputEl.focus();
+        userInputEl.style.height = "auto";
+        userInputEl.style.height =
+          Math.min(userInputEl.scrollHeight, 120) + "px";
+      }
 
-/* ─────────────────────────────────────────────────
+      /* ─────────────────────────────────────────────────
    MOBILE TABS
 ───────────────────────────────────────────────── */
-function switchTab(tab) {
-    const chat = document.getElementById('chat-panel');
-    const dash = document.getElementById('dash-panel');
-    const tChat = document.getElementById('tab-chat');
-    const tPlan = document.getElementById('tab-plan');
-    const dot   = document.getElementById('plan-dot');
+      function switchTab(tab) {
+        const chat = document.getElementById("chat-panel");
+        const dash = document.getElementById("dash-panel");
+        const tChat = document.getElementById("tab-chat");
+        const tPlan = document.getElementById("tab-plan");
+        const dot = document.getElementById("plan-dot");
 
-    if (tab === 'chat') {
-        chat.classList.remove('mobile-hidden');
-        dash.classList.remove('mobile-visible');
-        tChat.classList.add('active');
-        tPlan.classList.remove('active');
-    } else {
-        chat.classList.add('mobile-hidden');
-        dash.classList.add('mobile-visible');
-        tChat.classList.remove('active');
-        tPlan.classList.add('active');
-        dot.style.display = 'none';
-    }
-}
+        if (tab === "chat") {
+          chat.classList.remove("mobile-hidden");
+          dash.classList.remove("mobile-visible");
+          tChat.classList.add("active");
+          tPlan.classList.remove("active");
+        } else {
+          chat.classList.add("mobile-hidden");
+          dash.classList.add("mobile-visible");
+          tChat.classList.remove("active");
+          tPlan.classList.add("active");
+          dot.style.display = "none";
+        }
+      }
 
-/* ─────────────────────────────────────────────────
+      /* ─────────────────────────────────────────────────
    TOAST
 ───────────────────────────────────────────────── */
-function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2400);
-}
+      function showToast(msg) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 2400);
+      }
 
-/* ─────────────────────────────────────────────────
+      /* ─────────────────────────────────────────────────
    ADD CHAT MESSAGE
 ───────────────────────────────────────────────── */
-function addMessage(text, isUser) {
-    const div = document.createElement('div');
-    div.className = isUser ? 'msg-user' : 'msg-ai';
-    div.innerHTML = text;
-    chatHistoryEl.appendChild(div);
-    chatHistoryEl.scrollTop = chatHistoryEl.scrollHeight;
-    return div;
-}
+      function addMessage(text, isUser) {
+        const div = document.createElement("div");
+        div.className = isUser ? "msg-user" : "msg-ai";
+        div.innerHTML = text;
+        chatHistoryEl.appendChild(div);
+        chatHistoryEl.scrollTop = chatHistoryEl.scrollHeight;
+        return div;
+      }
 
-/* ─────────────────────────────────────────────────
+      /* ─────────────────────────────────────────────────
    TYPING INDICATOR
 ───────────────────────────────────────────────── */
-function showTyping(stages) {
-    const wrap = document.createElement('div');
-    wrap.className = 'msg-ai';
-    wrap.id = 'typing-indicator';
-    wrap.innerHTML = `<div class="typing-dots"><span></span><span></span><span></span></div>`;
-    chatHistoryEl.appendChild(wrap);
-    chatHistoryEl.scrollTop = chatHistoryEl.scrollHeight;
+      function showTyping(stages) {
+        const wrap = document.createElement("div");
+        wrap.className = "msg-ai";
+        wrap.id = "typing-indicator";
+        wrap.innerHTML = `<div class="typing-dots"><span></span><span></span><span></span></div>`;
+        chatHistoryEl.appendChild(wrap);
+        chatHistoryEl.scrollTop = chatHistoryEl.scrollHeight;
 
-    let i = 0;
-    const iv = setInterval(() => {
-        const el = document.getElementById('typing-indicator');
-        if (el && stages[i]) {
+        let i = 0;
+        const iv = setInterval(() => {
+          const el = document.getElementById("typing-indicator");
+          if (el && stages[i]) {
             el.innerHTML = `<span class="typing-stage">${stages[i]}</span><div class="typing-dots"><span></span><span></span><span></span></div>`;
-        }
-        i = (i + 1) % stages.length;
-    }, 1300);
+          }
+          i = (i + 1) % stages.length;
+        }, 1300);
 
-    return {
-        remove: () => { clearInterval(iv); document.getElementById('typing-indicator')?.remove(); }
-    };
-}
+        return {
+          remove: () => {
+            clearInterval(iv);
+            document.getElementById("typing-indicator")?.remove();
+          },
+        };
+      }
 
-/* ─────────────────────────────────────────────────
+      /* ─────────────────────────────────────────────────
    PROGRESS UPDATE
 ───────────────────────────────────────────────── */
-function updateProgress() {
-    if (!currentPlan) return;
-    const total = currentPlan.daily_tasks.length;
-    const done  = doneSet.size;
-    const pct   = total ? Math.round((done / total) * 100) : 0;
+      function updateProgress() {
+        if (!currentPlan) return;
+        const total = currentPlan.daily_tasks.length;
+        const done = doneSet.size;
+        const pct = total ? Math.round((done / total) * 100) : 0;
 
-    document.getElementById('stat-done').textContent  = done;
-    document.getElementById('stat-total').textContent = total;
-    progressFillEl.style.width = pct + '%';
+        document.getElementById("stat-done").textContent = done;
+        document.getElementById("stat-total").textContent = total;
+        progressFillEl.style.width = pct + "%";
 
-    let label = pct === 0   ? '0% complete — start with the first block!'
-              : pct === 100 ? '🎉 100% complete — you crushed it!'
+        let label =
+          pct === 0
+            ? "0% complete — start with the first block!"
+            : pct === 100
+              ? "🎉 100% complete — you crushed it!"
               : `${pct}% complete — keep the momentum going!`;
-    progressLblEl.textContent = label;
+        progressLblEl.textContent = label;
 
-    if (pct === 100) showToast('🎉 Plan complete! You crushed it!');
-}
+        if (pct === 100) showToast("🎉 Plan complete! You crushed it!");
+      }
 
-/* ─────────────────────────────────────────────────
+      /* ─────────────────────────────────────────────────
    TOGGLE TASK DONE
 ───────────────────────────────────────────────── */
-function toggleDone(idx) {
-    const card  = document.getElementById(`task-${idx}`);
-    const check = document.getElementById(`check-${idx}`);
-    if (doneSet.has(idx)) {
-        doneSet.delete(idx);
-        card.classList.remove('done');
-        check.classList.remove('checked');
-    } else {
-        doneSet.add(idx);
-        card.classList.add('done');
-        check.classList.add('checked');
-        showToast('✅ Session marked complete!');
-    }
-    updateProgress();
-}
+      function toggleDone(idx) {
+        const card = document.getElementById(`task-${idx}`);
+        const check = document.getElementById(`check-${idx}`);
+        if (doneSet.has(idx)) {
+          doneSet.delete(idx);
+          card.classList.remove("done");
+          check.classList.remove("checked");
+        } else {
+          doneSet.add(idx);
+          card.classList.add("done");
+          check.classList.add("checked");
+          showToast("✅ Session marked complete!");
+        }
+        updateProgress();
+      }
 
-/* ─────────────────────────────────────────────────
+      /* ─────────────────────────────────────────────────
    POMODORO TIMER
 ───────────────────────────────────────────────── */
-function openPomo(idx) {
-    const task = currentPlan?.daily_tasks[idx];
-    if (!task) return;
-    pomoTaskIdx = idx;
-    pomoSeconds = POMO_TOTAL;
-    pomoRunning = false;
-    clearInterval(pomoInterval);
+      function openPomo(idx) {
+        const task = currentPlan?.daily_tasks[idx];
+        if (!task) return;
+        pomoTaskIdx = idx;
+        pomoSeconds = POMO_TOTAL;
+        pomoRunning = false;
+        clearInterval(pomoInterval);
 
-    document.getElementById('pomo-subject').textContent = task.topic;
-    renderPomoTime();
-    document.getElementById('pomo-play').innerHTML = '<i class="fa-solid fa-play"></i> Start';
-    document.getElementById('pomo-ring-fill').style.strokeDashoffset = '0';
-    document.getElementById('pomo-overlay').classList.add('open');
-}
+        document.getElementById("pomo-subject").textContent = task.topic;
+        renderPomoTime();
+        document.getElementById("pomo-play").innerHTML =
+          '<i class="fa-solid fa-play"></i> Start';
+        document.getElementById("pomo-ring-fill").style.strokeDashoffset = "0";
+        document.getElementById("pomo-overlay").classList.add("open");
+      }
 
-function closePomoOnBg(e) {
-    if (e.target === document.getElementById('pomo-overlay')) closePomo();
-}
+      function closePomoOnBg(e) {
+        if (e.target === document.getElementById("pomo-overlay")) closePomo();
+      }
 
-function closePomo() {
-    clearInterval(pomoInterval);
-    pomoRunning = false;
-    document.getElementById('pomo-overlay').classList.remove('open');
-    // Update timer button state
-    if (pomoTaskIdx >= 0) {
-        const btn = document.getElementById(`timer-btn-${pomoTaskIdx}`);
-        if (btn) { btn.classList.remove('running'); btn.innerHTML = '<i class="fa-solid fa-stopwatch"></i> Focus'; }
-    }
-}
-
-function togglePomo() {
-    if (pomoRunning) {
+      function closePomo() {
         clearInterval(pomoInterval);
         pomoRunning = false;
-        document.getElementById('pomo-play').innerHTML = '<i class="fa-solid fa-play"></i> Resume';
-        const btn = document.getElementById(`timer-btn-${pomoTaskIdx}`);
-        if (btn) { btn.classList.remove('running'); btn.innerHTML = '<i class="fa-solid fa-stopwatch"></i> Focus'; }
-    } else {
-        if (pomoSeconds <= 0) { pomoSeconds = POMO_TOTAL; }
-        pomoRunning = true;
-        document.getElementById('pomo-play').innerHTML = '<i class="fa-solid fa-pause"></i> Pause';
-        const btn = document.getElementById(`timer-btn-${pomoTaskIdx}`);
-        if (btn) { btn.classList.add('running'); btn.innerHTML = '<i class="fa-solid fa-stopwatch"></i> Running'; }
+        document.getElementById("pomo-overlay").classList.remove("open");
+        // Update timer button state
+        if (pomoTaskIdx >= 0) {
+          const btn = document.getElementById(`timer-btn-${pomoTaskIdx}`);
+          if (btn) {
+            btn.classList.remove("running");
+            btn.innerHTML = '<i class="fa-solid fa-stopwatch"></i> Focus';
+          }
+        }
+      }
 
-        pomoInterval = setInterval(() => {
+      function togglePomo() {
+        if (pomoRunning) {
+          clearInterval(pomoInterval);
+          pomoRunning = false;
+          document.getElementById("pomo-play").innerHTML =
+            '<i class="fa-solid fa-play"></i> Resume';
+          const btn = document.getElementById(`timer-btn-${pomoTaskIdx}`);
+          if (btn) {
+            btn.classList.remove("running");
+            btn.innerHTML = '<i class="fa-solid fa-stopwatch"></i> Focus';
+          }
+        } else {
+          if (pomoSeconds <= 0) {
+            pomoSeconds = POMO_TOTAL;
+          }
+          pomoRunning = true;
+          document.getElementById("pomo-play").innerHTML =
+            '<i class="fa-solid fa-pause"></i> Pause';
+          const btn = document.getElementById(`timer-btn-${pomoTaskIdx}`);
+          if (btn) {
+            btn.classList.add("running");
+            btn.innerHTML = '<i class="fa-solid fa-stopwatch"></i> Running';
+          }
+
+          pomoInterval = setInterval(() => {
             pomoSeconds--;
             renderPomoTime();
             if (pomoSeconds <= 0) {
-                clearInterval(pomoInterval);
-                pomoRunning = false;
-                pomodoroCount++;
-                document.getElementById('stat-pomos').textContent = pomodoroCount;
-                document.getElementById('stat-pomo-pill').style.display = 'flex';
-                document.getElementById('pomo-play').innerHTML = '<i class="fa-solid fa-rotate-right"></i> Again';
-                playDoneChime();
-                showToast('🍅 Pomodoro complete! Take a 5-min break.');
+              clearInterval(pomoInterval);
+              pomoRunning = false;
+              pomodoroCount++;
+              document.getElementById("stat-pomos").textContent = pomodoroCount;
+              document.getElementById("stat-pomo-pill").style.display = "flex";
+              document.getElementById("pomo-play").innerHTML =
+                '<i class="fa-solid fa-rotate-right"></i> Again';
+              playDoneChime();
+              showToast("🍅 Pomodoro complete! Take a 5-min break.");
             }
-        }, 1000);
-    }
-}
+          }, 1000);
+        }
+      }
 
-function renderPomoTime() {
-    const m = Math.floor(pomoSeconds / 60);
-    const s = pomoSeconds % 60;
-    const display = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-    const el = document.getElementById('pomo-time');
-    el.textContent = display;
-    el.className = 'pomo-timer' + (pomoSeconds <= 0 ? ' done-color' : pomoSeconds <= 60 ? ' warning' : '');
+      function renderPomoTime() {
+        const m = Math.floor(pomoSeconds / 60);
+        const s = pomoSeconds % 60;
+        const display = `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+        const el = document.getElementById("pomo-time");
+        el.textContent = display;
+        el.className =
+          "pomo-timer" +
+          (pomoSeconds <= 0
+            ? " done-color"
+            : pomoSeconds <= 60
+              ? " warning"
+              : "");
 
-    const pct = pomoSeconds / POMO_TOTAL;
-    const offset = RING_CIRC * (1 - pct);
-    document.getElementById('pomo-ring-fill').style.strokeDashoffset = offset;
-}
+        const pct = pomoSeconds / POMO_TOTAL;
+        const offset = RING_CIRC * (1 - pct);
+        document.getElementById("pomo-ring-fill").style.strokeDashoffset =
+          offset;
+      }
 
-function playDoneChime() {
-    try {
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        [880, 1046, 1318].forEach((freq, i) => {
-            const osc  = ctx.createOscillator();
+      function playDoneChime() {
+        try {
+          const ctx = new (window.AudioContext || window.webkitAudioContext)();
+          [880, 1046, 1318].forEach((freq, i) => {
+            const osc = ctx.createOscillator();
             const gain = ctx.createGain();
-            osc.connect(gain); gain.connect(ctx.destination);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
             osc.frequency.value = freq;
-            osc.type = 'sine';
+            osc.type = "sine";
             gain.gain.setValueAtTime(0, ctx.currentTime + i * 0.18);
-            gain.gain.linearRampToValueAtTime(0.18, ctx.currentTime + i * 0.18 + 0.05);
-            gain.gain.linearRampToValueAtTime(0,    ctx.currentTime + i * 0.18 + 0.35);
+            gain.gain.linearRampToValueAtTime(
+              0.18,
+              ctx.currentTime + i * 0.18 + 0.05,
+            );
+            gain.gain.linearRampToValueAtTime(
+              0,
+              ctx.currentTime + i * 0.18 + 0.35,
+            );
             osc.start(ctx.currentTime + i * 0.18);
-            osc.stop(ctx.currentTime  + i * 0.18 + 0.4);
-        });
-    } catch(e) { /* AudioContext not available */ }
-}
+            osc.stop(ctx.currentTime + i * 0.18 + 0.4);
+          });
+        } catch (e) {
+          /* AudioContext not available */
+        }
+      }
 
-/* ─────────────────────────────────────────────────
+      /* ─────────────────────────────────────────────────
    COPY PLAN
 ───────────────────────────────────────────────── */
-function copyPlan() {
-    if (!currentPlan) return;
-    const lines = [`📋 ${currentPlan.plan_title}`, ''];
-    currentPlan.daily_tasks.forEach(t => {
-        lines.push(`${t.day} — ${t.topic} (${t.duration_hours}h)`);
-        if (t.tip) lines.push(`   💡 ${t.tip}`);
-    });
-    lines.push('', '— Generated by Aegis Planner AI');
+      function copyPlan() {
+        if (!currentPlan) return;
+        const lines = [`📋 ${currentPlan.plan_title}`, ""];
+        currentPlan.daily_tasks.forEach((t) => {
+          lines.push(`${t.day} — ${t.topic} (${t.duration_hours}h)`);
+          if (t.tip) lines.push(`   💡 ${t.tip}`);
+        });
+        lines.push("", "— Generated by Aegis Planner AI");
 
-    navigator.clipboard.writeText(lines.join('\n')).then(() => {
-        const btn = document.getElementById('copy-btn');
-        btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
-        btn.classList.add('copied');
-        showToast('📋 Plan copied to clipboard!');
-        setTimeout(() => {
-            btn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy Plan';
-            btn.classList.remove('copied');
-        }, 2000);
-    }).catch(() => showToast('Could not copy — try manually.'));
-}
+        navigator.clipboard
+          .writeText(lines.join("\n"))
+          .then(() => {
+            const btn = document.getElementById("copy-btn");
+            btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+            btn.classList.add("copied");
+            showToast("📋 Plan copied to clipboard!");
+            setTimeout(() => {
+              btn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy Plan';
+              btn.classList.remove("copied");
+            }, 2000);
+          })
+          .catch(() => showToast("Could not copy — try manually."));
+      }
 
-/* ─────────────────────────────────────────────────
+      /* ─────────────────────────────────────────────────
    SHARE PLAN (URL encode)
 ───────────────────────────────────────────────── */
-function sharePlan() {
-    if (!currentPlan) return;
-    try {
-        const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(currentPlan))));
-        const url = `${location.origin}${location.pathname}?plan=${encoded}`;
-        navigator.clipboard.writeText(url).then(() => {
-            showToast('🔗 Share link copied!');
-        });
-    } catch(e) { showToast('Could not generate share link.'); }
-}
-
-/* Load shared plan from URL on page load */
-(function loadFromURL() {
-    const params = new URLSearchParams(location.search);
-    const encoded = params.get('plan');
-    if (!encoded) return;
-    try {
-        const plan = JSON.parse(decodeURIComponent(escape(atob(encoded))));
-        if (plan && plan.plan_title && plan.daily_tasks) {
-            setTimeout(() => {
-                renderPlan(plan);
-                addMessage(`Loaded shared plan: <strong>${plan.plan_title}</strong>`, false);
-            }, 300);
+      function sharePlan() {
+        if (!currentPlan) return;
+        try {
+          const encoded = btoa(
+            unescape(encodeURIComponent(JSON.stringify(currentPlan))),
+          );
+          const url = `${location.origin}${location.pathname}?plan=${encoded}`;
+          navigator.clipboard.writeText(url).then(() => {
+            showToast("🔗 Share link copied!");
+          });
+        } catch (e) {
+          showToast("Could not generate share link.");
         }
-    } catch(e) { /* malformed URL param, ignore */ }
-})();
+      }
 
-/* ─────────────────────────────────────────────────
+      /* Load shared plan from URL on page load */
+      (function loadFromURL() {
+        const params = new URLSearchParams(location.search);
+        const encoded = params.get("plan");
+        if (!encoded) return;
+        try {
+          const plan = JSON.parse(decodeURIComponent(escape(atob(encoded))));
+          if (plan && plan.plan_title && plan.daily_tasks) {
+            setTimeout(() => {
+              renderPlan(plan);
+              addMessage(
+                `Loaded shared plan: <strong>${plan.plan_title}</strong>`,
+                false,
+              );
+            }, 300);
+          }
+        } catch (e) {
+          /* malformed URL param, ignore */
+        }
+      })();
+
+      /* ─────────────────────────────────────────────────
    RENDER PLAN
 ───────────────────────────────────────────────── */
-function renderPlan(plan) {
-    currentPlan = plan;
-    doneSet.clear();
+      function renderPlan(plan) {
+        currentPlan = plan;
+        doneSet.clear();
 
-    const totalHours = plan.daily_tasks.reduce((s, t) => s + (Number(t.duration_hours) || 0), 0);
-    const totalDays  = plan.daily_tasks.length;
+        const totalHours = plan.daily_tasks.reduce(
+          (s, t) => s + (Number(t.duration_hours) || 0),
+          0,
+        );
+        const totalDays = plan.daily_tasks.length;
 
-    document.getElementById('stat-days').textContent  = totalDays;
-    document.getElementById('stat-hours').textContent = totalHours.toFixed(1).replace(/\.0$/, '');
-    document.getElementById('stat-done').textContent  = '0';
-    document.getElementById('stat-total').textContent = totalDays;
-    statsBarEl.style.display   = 'flex';
-    progressWrapEl.style.display = 'block';
-    progressFillEl.style.width = '0%';
-    progressLblEl.textContent  = '0% complete — start with the first block!';
+        document.getElementById("stat-days").textContent = totalDays;
+        document.getElementById("stat-hours").textContent = totalHours
+          .toFixed(1)
+          .replace(/\.0$/, "");
+        document.getElementById("stat-done").textContent = "0";
+        document.getElementById("stat-total").textContent = totalDays;
+        statsBarEl.style.display = "flex";
+        progressWrapEl.style.display = "block";
+        progressFillEl.style.width = "0%";
+        progressLblEl.textContent = "0% complete — start with the first block!";
 
-    // Show action buttons
-    document.getElementById('copy-btn').style.display  = '';
-    document.getElementById('share-btn').style.display = '';
+        // Show action buttons
+        document.getElementById("copy-btn").style.display = "";
+        document.getElementById("share-btn").style.display = "";
 
-    const tasksHtml = plan.daily_tasks.map((task, idx) => {
-        const urgency = task.urgency || 'medium';
-        const tip     = task.tip || '';
-        const delay   = `style="animation-delay:${idx * 55}ms"`;
-        return `
+        const tasksHtml = plan.daily_tasks
+          .map((task, idx) => {
+            const urgency = task.urgency || "medium";
+            const tip = task.tip || "";
+            const delay = `style="animation-delay:${idx * 55}ms"`;
+            return `
         <div class="task-card urgency-${urgency}" id="task-${idx}" ${delay}>
             <div class="task-day">
                 <i class="fa-regular fa-calendar-days" style="color:var(--accent);"></i>
                 ${task.day}
-                <span class="urgency-badge ${urgency}">${urgency === 'high' ? '🔴 High' : urgency === 'medium' ? '🟡 Mid' : '🟢 Low'}</span>
+                <span class="urgency-badge ${urgency}">${urgency === "high" ? "🔴 High" : urgency === "medium" ? "🟡 Mid" : "🟢 Low"}</span>
             </div>
             <div class="task-topic">${task.topic}</div>
-            ${tip ? `<div class="task-tip">💡 ${tip}</div>` : ''}
+            ${tip ? `<div class="task-tip">💡 ${tip}</div>` : ""}
             <div class="task-meta">
                 <div style="display:flex;gap:6px;align-items:center;">
                     <span class="task-hours"><i class="fa-regular fa-clock" style="margin-right:3px;"></i>${task.duration_hours}h</span>
@@ -1113,10 +1806,11 @@ function renderPlan(plan) {
                 </div>
             </div>
         </div>`;
-    }).join('');
+          })
+          .join("");
 
-    dashboardEl.className = '';
-    dashboardEl.innerHTML = `
+        dashboardEl.className = "";
+        dashboardEl.innerHTML = `
         <div class="plan-card">
             <div class="plan-title-text">
                 <i class="fa-solid fa-map-location-dot" style="margin-right:8px;opacity:.8;"></i>${plan.plan_title}
@@ -1125,84 +1819,86 @@ function renderPlan(plan) {
             <div class="task-grid">${tasksHtml}</div>
         </div>`;
 
-    // Mobile: show notification dot on plan tab
-    if (isMobile()) {
-        document.getElementById('plan-dot').style.display = 'block';
-    }
-}
+        // Mobile: show notification dot on plan tab
+        if (isMobile()) {
+          document.getElementById("plan-dot").style.display = "block";
+        }
+      }
 
-/* ─────────────────────────────────────────────────
+      /* ─────────────────────────────────────────────────
    SEND MESSAGE
 ───────────────────────────────────────────────── */
-async function sendMessage() {
-    const text = userInputEl.value.trim();
-    if (!text || sendBtnEl.disabled) return;
+      async function sendMessage() {
+        const text = userInputEl.value.trim();
+        if (!text || sendBtnEl.disabled) return;
 
-    // Build full prompt including difficulty context
-    const fullPrompt = `${text} [Subject difficulty level: ${selectedDifficulty}]`;
+        // Build full prompt including difficulty context
+        const fullPrompt = `${text} [Subject difficulty level: ${selectedDifficulty}]`;
 
-    addMessage(text, true);
-    conversationHistory.push({ role: 'user', content: fullPrompt });
+        addMessage(text, true);
+        conversationHistory.push({ role: "user", content: fullPrompt });
 
-    userInputEl.value = '';
-    userInputEl.style.height = 'auto';
-    sendBtnEl.disabled = true;
+        userInputEl.value = "";
+        userInputEl.style.height = "auto";
+        sendBtnEl.disabled = true;
 
-    // Hide chips and difficulty after first message
-    document.getElementById('chips-row').style.display = 'none';
+        // Hide chips and difficulty after first message
+        document.getElementById("chips-row").style.display = "none";
 
-    const stages = [
-        'Analyzing your deadlines…',
-        'Prioritizing by urgency…',
-        'Allocating 2-hour blocks…',
-        'Adding tips for each topic…',
-        'Finalizing your shield plan…'
-    ];
-    const typing = showTyping(stages);
+        const stages = [
+          "Analyzing your deadlines…",
+          "Prioritizing by urgency…",
+          "Allocating 2-hour blocks…",
+          "Adding tips for each topic…",
+          "Finalizing your shield plan…",
+        ];
+        const typing = showTyping(stages);
 
-    try {
-        const res = await fetch('/api/chat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+        try {
+          const res = await fetch("/api/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                prompt: fullPrompt,
-                history: conversationHistory.slice(-12)   // last 6 turns
-            })
-        });
+              prompt: fullPrompt,
+              history: conversationHistory.slice(-12), // last 6 turns
+            }),
+          });
 
-        const data = await res.json();
-        typing.remove();
+          const data = await res.json();
+          typing.remove();
 
-        addMessage(data.text, false);
-        conversationHistory.push({ role: 'assistant', content: data.text });
+          addMessage(data.text, false);
+          conversationHistory.push({ role: "assistant", content: data.text });
 
-        if (data.plan) {
+          if (data.plan) {
             renderPlan(data.plan);
             // On mobile, auto-switch to plan tab after short delay
-            if (isMobile()) setTimeout(() => switchTab('plan'), 1100);
+            if (isMobile()) setTimeout(() => switchTab("plan"), 1100);
+          }
+        } catch (err) {
+          typing.remove();
+          addMessage("Connection error — please try again.", false);
+        } finally {
+          sendBtnEl.disabled = false;
+          userInputEl.focus();
         }
+      }
 
-    } catch (err) {
-        typing.remove();
-        addMessage('Connection error — please try again.', false);
-    } finally {
-        sendBtnEl.disabled = false;
-        userInputEl.focus();
-    }
-}
-
-/* ─────────────────────────────────────────────────
+      /* ─────────────────────────────────────────────────
    EVENT LISTENERS
 ───────────────────────────────────────────────── */
-sendBtnEl.addEventListener('click', sendMessage);
-userInputEl.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
-});
+      sendBtnEl.addEventListener("click", sendMessage);
+      userInputEl.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+          sendMessage();
+        }
+      });
 
-// Keyboard shortcut: Escape closes pomodoro
-document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closePomo();
-});
-</script>
-</body>
+      // Keyboard shortcut: Escape closes pomodoro
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closePomo();
+      });
+    </script>
+  </body>
 </html>
