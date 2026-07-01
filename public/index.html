@@ -87,6 +87,10 @@
         transition:
           background var(--transition),
           color var(--transition);
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        overscroll-behavior: none;
       }
 
       /* ═══════════════════════════════════════════════════
@@ -930,29 +934,34 @@
       @media (max-width: 768px) {
         html,
         body {
-          height: 100dvh;
+          height: 100%;
           overflow: hidden;
         }
 
         .app-shell {
-          display: flex;
-          flex-direction: column;
-          height: 100dvh;
+          position: relative;
+          /* height is set live in JS via visualViewport (--app-height) */
+          height: calc(var(--app-height, 100vh));
           width: 100%;
           overflow: hidden;
         }
 
+        /* Chat panel and dashboard panel overlay each other and each
+           take the FULL app-shell height minus the tab bar. Using
+           absolute positioning (not flex) means the hidden one never
+           reserves layout space — that reserved space was the exact
+           cause of the blank gap under the input bar. */
         .chat-panel {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 56px;
           width: 100%;
           min-width: unset;
           border-right: none;
-          flex: 1;
           display: flex;
           flex-direction: column;
-          position: relative;
-          top: auto;
-          left: auto;
-          right: auto;
           transform: translateX(0);
           transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           z-index: 20;
@@ -961,18 +970,21 @@
 
         .chat-panel.mobile-hidden {
           transform: translateX(-100%);
-          display: none;
         }
 
         .dash-panel {
-          position: relative;
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 56px;
           width: 100%;
-          flex: 1;
           overflow-y: auto;
           padding: 18px 14px 24px;
           transform: translateX(100%);
           transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           background: var(--bg-page);
+          z-index: 15;
         }
 
         .dash-panel.mobile-visible {
@@ -981,14 +993,16 @@
 
         .mobile-tabs {
           display: flex;
-          position: relative;
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0;
           width: 100%;
           height: 56px;
-          flex-shrink: 0;
           background: var(--bg-panel);
           border-top: 1px solid var(--border);
           box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.1);
-          order: 1;
+          z-index: 25;
         }
 
         .mob-tab {
@@ -1421,6 +1435,30 @@
       const RING_CIRC = 326.73;
 
       const isMobile = () => window.innerWidth <= 768;
+
+      /* ─────────────────────────────────────────────────
+   VIEWPORT LOCK (ChatGPT/Claude-style keyboard handling)
+   Drives real app height from visualViewport, which updates
+   live when the on-screen keyboard opens/closes on Android/iOS.
+   This replaces reliance on CSS 100dvh, which many mobile
+   Chrome versions don't recompute reliably on keyboard toggle.
+───────────────────────────────────────────────── */
+      function setAppHeight() {
+        const vv = window.visualViewport;
+        const h = vv ? vv.height : window.innerHeight;
+        document.documentElement.style.setProperty("--app-height", h + "px");
+        // Always snap the (locked) body back to the top-left so nothing
+        // drifts out of view when the keyboard opens.
+        window.scrollTo(0, 0);
+      }
+
+      setAppHeight();
+      window.addEventListener("resize", setAppHeight);
+      window.addEventListener("orientationchange", setAppHeight);
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener("resize", setAppHeight);
+        window.visualViewport.addEventListener("scroll", setAppHeight);
+      }
 
       /* ─────────────────────────────────────────────────
    DOM REFS
@@ -1931,26 +1969,18 @@
       }
 
       /* ─────────────────────────────────────────────────
-   MOBILE: SCROLL INPUT INTO VIEW ON FOCUS
+   MOBILE: KEEP CHAT SCROLLED TO LATEST MESSAGE WHEN
+   KEYBOARD OPENS (layout itself is handled by setAppHeight)
 ───────────────────────────────────────────────── */
       userInputEl.addEventListener("focus", () => {
         if (isMobile()) {
+          // Let the keyboard animation finish, then make sure the
+          // most recent message + input are in view within the
+          // (now shorter) chat panel — the panel itself never moves.
           setTimeout(() => {
-            userInputEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
-            document.getElementById("chat-panel").scrollIntoView({ block: "start" });
-          }, 300);
+            chatHistoryEl.scrollTop = chatHistoryEl.scrollHeight;
+          }, 150);
         }
-      });
-
-      /* Prevent body scroll when input is focused on mobile */
-      userInputEl.addEventListener("focus", () => {
-        if (isMobile()) {
-          document.body.style.overflow = "hidden";
-        }
-      });
-
-      userInputEl.addEventListener("blur", () => {
-        document.body.style.overflow = "";
       });
 
       /* ─────────────────────────────────────────────────
