@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
     />
     <title>Aegis Planner AI — Your Academic Shield</title>
     <link
@@ -75,7 +75,6 @@
       }
       html,
       body {
-        height: 100%;
         font-family:
           "Inter",
           system-ui,
@@ -91,7 +90,7 @@
       }
 
       /* ═══════════════════════════════════════════════════
-   APP LAYOUT
+   DESKTOP APP LAYOUT
 ═══════════════════════════════════════════════════ */
       .app-shell {
         display: flex;
@@ -127,14 +126,6 @@
       /* ─── Mobile Tabs ─── */
       .mobile-tabs {
         display: none;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 50;
-        background: var(--bg-panel);
-        border-top: 1px solid var(--border);
-        box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.1);
       }
 
       /* ═══════════════════════════════════════════════════
@@ -934,50 +925,70 @@
       }
 
       /* ═══════════════════════════════════════════════════
-   MOBILE LAYOUT
+   MOBILE LAYOUT (FIXED VERSION)
 ═══════════════════════════════════════════════════ */
       @media (max-width: 768px) {
+        html,
+        body {
+          height: 100dvh;
+          overflow: hidden;
+        }
+
         .app-shell {
-          display: block;
-          height: auto;
-          overflow: auto;
-          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+          height: 100dvh;
+          width: 100%;
+          overflow: hidden;
         }
 
         .chat-panel {
           width: 100%;
           min-width: unset;
           border-right: none;
-          height: calc(100vh - 56px);
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          position: relative;
+          top: auto;
+          left: auto;
+          right: auto;
           transform: translateX(0);
           transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           z-index: 20;
+          border-bottom: 1px solid var(--border);
         }
+
         .chat-panel.mobile-hidden {
           transform: translateX(-100%);
+          display: none;
         }
 
         .dash-panel {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 56px;
+          position: relative;
+          width: 100%;
+          flex: 1;
           overflow-y: auto;
           padding: 18px 14px 24px;
           transform: translateX(100%);
           transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          background: var(--bg-page);
         }
+
         .dash-panel.mobile-visible {
           transform: translateX(0);
         }
 
         .mobile-tabs {
           display: flex;
+          position: relative;
+          width: 100%;
+          height: 56px;
+          flex-shrink: 0;
+          background: var(--bg-panel);
+          border-top: 1px solid var(--border);
+          box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.1);
+          order: 1;
         }
 
         .mob-tab {
@@ -997,12 +1008,15 @@
           transition: color 0.15s;
           position: relative;
         }
+
         .mob-tab i {
           font-size: 1.1rem;
         }
+
         .mob-tab.active {
           color: var(--accent);
         }
+
         .mob-tab-bar {
           height: 3px;
           background: var(--accent);
@@ -1011,9 +1025,11 @@
           opacity: 0;
           transition: opacity 0.15s;
         }
+
         .mob-tab.active .mob-tab-bar {
           opacity: 1;
         }
+
         .plan-notif-dot {
           display: none;
           position: absolute;
@@ -1029,25 +1045,55 @@
         .task-grid {
           grid-template-columns: 1fr;
         }
+
         .stats-bar {
           gap: 7px;
         }
+
         .stat-pill {
           flex: 1;
           min-width: 100px;
         }
+
         .dash-header {
           margin-bottom: 14px;
         }
+
         .plan-card {
           padding: 16px;
         }
+
         .dash-title {
           font-size: 1.25rem;
         }
-        .toast {
-          bottom: 68px;
+
+        /* Input area: ensure it stays visible above tabs */
+        .input-area {
+          position: relative;
+          z-index: 15;
+          background: var(--bg-input);
+          border-top: 1px solid var(--border);
+          padding: 10px 14px 12px;
+          flex-shrink: 0;
         }
+
+        /* Prevent input from being hidden */
+        #user-input {
+          font-size: 16px;
+          max-height: none;
+          scroll-margin-top: 100px;
+        }
+
+        #user-input:focus {
+          position: relative;
+          z-index: 25;
+        }
+
+        /* Toast positioned above tabs */
+        .toast {
+          bottom: calc(56px + 16px);
+        }
+
         .pomodoro-overlay {
           padding: 16px;
         }
@@ -1883,6 +1929,29 @@
           userInputEl.focus();
         }
       }
+
+      /* ─────────────────────────────────────────────────
+   MOBILE: SCROLL INPUT INTO VIEW ON FOCUS
+───────────────────────────────────────────────── */
+      userInputEl.addEventListener("focus", () => {
+        if (isMobile()) {
+          setTimeout(() => {
+            userInputEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
+            document.getElementById("chat-panel").scrollIntoView({ block: "start" });
+          }, 300);
+        }
+      });
+
+      /* Prevent body scroll when input is focused on mobile */
+      userInputEl.addEventListener("focus", () => {
+        if (isMobile()) {
+          document.body.style.overflow = "hidden";
+        }
+      });
+
+      userInputEl.addEventListener("blur", () => {
+        document.body.style.overflow = "";
+      });
 
       /* ─────────────────────────────────────────────────
    EVENT LISTENERS
